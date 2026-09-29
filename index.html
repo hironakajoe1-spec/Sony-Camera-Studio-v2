@@ -4076,6 +4076,8 @@ function loadSavingsData() {
     data.monthlySpending || '';
 }
 
+ function handleCSVUpload(event) {
+
   const file = event.target.files[0];
 
   if (!file) return;
@@ -4084,36 +4086,37 @@ function loadSavingsData() {
 
   reader.onload = function(e) {
 
-  const csvText = e.target.result;
+    const csvText = e.target.result;
 
-  document.getElementById(
-    'planner-results'
-  ).innerHTML = `
-    <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-      <h3 class="text-lg font-bold text-green-400">
-        ✅ CSV Loaded
-      </h3>
+    document.getElementById(
+      'planner-results'
+    ).innerHTML = `
+      <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
 
-      <div>
-        File: ${file.name}
+        <h3 class="text-lg font-bold text-green-400">
+          ✅ CSV Loaded
+        </h3>
+
+        <div>
+          File: ${file.name}
+        </div>
+
+        <div>
+          Rows: ${csvText.split('\n').length}
+        </div>
+
+        <div class="mt-4 text-cyan-400">
+          🧠 Running AI analysis...
+        </div>
+
       </div>
+    `;
 
-      <div>
-        Rows: ${
-          csvText.split('\n').length
-        }
-      </div>
+    analyzeSpending(csvText);
 
-      <div class="mt-4 text-cyan-400">
-        🧠 Running AI analysis...
-      </div>
-    </div>
-  `;
+  };
 
-  analyzeSpending(csvText);
-
-};
-        function handleCSVUpload(event) {
+ function handleCSVUpload(event) {
 
   const file = event.target.files[0];
 
@@ -4133,19 +4136,21 @@ function loadSavingsData() {
           ✅ CSV Loaded
         </h3>
 
-        <div>
-          File: ${file.name}
-        </div>
-
-        <div>
-          Rows: ${csvText.split('\n').length}
-        </div>
+        <div>File: ${file.name}</div>
+        <div>Rows: ${csvText.split('\n').length}</div>
 
         <div class="mt-4 text-cyan-400">
           🧠 Running AI analysis...
         </div>
       </div>
     `;
+
+    analyzeSpending(csvText);
+
+  };
+
+  reader.readAsText(file);
+
 }
 
 async function analyzeSpending(csvText) {
@@ -4153,6 +4158,37 @@ async function analyzeSpending(csvText) {
   alert("AI started");
 
   const response = await fetch(
+    "https://sony-planner-ai.hironakajoe1.workers.dev/",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        salary: 210000,
+        csv: csvText
+      })
+    }
+  );
+
+  const result = await response.json();
+
+  document.getElementById(
+    'planner-results'
+  ).innerHTML = `
+    <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
+
+      <h3 class="text-xl font-bold text-cyan-400">
+        🧠 AI Financial Analysis
+      </h3>
+
+      <pre class="mt-4 whitespace-pre-wrap">
+${JSON.stringify(result, null, 2)}
+      </pre>
+
+    </div>
+  `;
+}
     "https://sony-planner-ai.hironakajoe1.workers.dev",
     {
       method: "POST",
@@ -4183,39 +4219,6 @@ ${JSON.stringify(result, null, 2)}
 
   </div>
   `;
-}
-  "https://sony-planner-ai.hironakajoe1.workers.dev",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      salary: 210000,
-      csv: csvText
-    })
-  }
-); 
-const result = await response.json();
- 
-document.getElementById(
-  'planner-results'
-).innerHTML = `
-
-<div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-
-  <h3 class="text-xl font-bold text-cyan-400">
-    🧠 AI Financial Analysis
-  </h3>
-
-  <pre class="mt-4 whitespace-pre-wrap">
-${JSON.stringify(result, null, 2)}
-  </pre>
-
-</div>
-
-`;
- 
 }
 
 window.addEventListener(
