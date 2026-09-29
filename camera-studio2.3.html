@@ -3913,6 +3913,69 @@ window.addEventListener('scroll', () => {
 
 });
 
+  // ============================
+// LOCAL STORAGE
+// ============================
+
+function saveSavingsData() {
+
+  const data = {
+
+    gearGoal:
+      document.getElementById('gear-goal').value,
+
+    currentSavings:
+      document.getElementById('current-savings').value,
+
+    monthlySavings:
+      document.getElementById('monthly-savings').value,
+
+    monthlySpending:
+      document.getElementById('monthly-spending').value
+
+  };
+
+  localStorage.setItem(
+    'gearSavingsData',
+    JSON.stringify(data)
+  );
+
+}
+
+function loadSavingsData() {
+
+  const saved =
+    localStorage.getItem(
+      'gearSavingsData'
+    );
+
+  if (!saved) return;
+
+  const data =
+    JSON.parse(saved);
+
+  document.getElementById(
+    'gear-goal'
+  ).value =
+    data.gearGoal || '';
+
+  document.getElementById(
+    'current-savings'
+  ).value =
+    data.currentSavings || '';
+
+  document.getElementById(
+    'monthly-savings'
+  ).value =
+    data.monthlySavings || '';
+
+  document.getElementById(
+    'monthly-spending'
+  ).value =
+    data.monthlySpending || '';
+
+}
+
 window.addEventListener(
   'DOMContentLoaded',
   () => {
@@ -3925,24 +3988,45 @@ document
 
 document
   .getElementById('gear-goal')
-  .addEventListener('input', calculateSavings);
+  .addEventListener('input', () => {
+
+    calculateSavings();
+    saveSavingsData();
+
+  });
 
 document
   .getElementById('monthly-spending')
-  .addEventListener('input', calculateSavings);
+  .addEventListener('input', () => {
+
+    calculateSavings();
+    saveSavingsData();
+
+  });
 
 document
   .getElementById('current-savings')
-  .addEventListener('input', calculateSavings);
+  .addEventListener('input', () => {
+
+    calculateSavings();
+    saveSavingsData();
+
+  });
 
 document
   .getElementById('monthly-savings')
-  .addEventListener('input', calculateSavings);
+  .addEventListener('input', () => {
 
+    calculateSavings();
+    saveSavingsData();
+
+  });
 
     initCameraStudio();
     initLensStudio();
     initGearSavings();
+
+    
 
     calculateSavings();
 
