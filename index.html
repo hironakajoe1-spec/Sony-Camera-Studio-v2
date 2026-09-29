@@ -3130,11 +3130,23 @@ if (tab === 'savings') {
 
 if (tab === 'planner') {
 
+  cameraTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+lensTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+savingsTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+plannerTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
   cameraSection.style.display = 'none';
   lensSection.style.display = 'none';
   savingsSection.style.display = 'none';
   plannerSection.style.display = 'block';
-}  
+
   plannerTab.className =
     'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
 
@@ -3146,9 +3158,10 @@ if (tab === 'planner') {
 
   savingsTab.className =
     'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
 }
 
+}
+  
 function getLensFeatureBadges(features = []) {
 
 const colors = {
@@ -4115,7 +4128,6 @@ window.addEventListener(
     'change',
     handleCSVUpload
   );
-`
 
 document
   .getElementById('camera-price-source')
