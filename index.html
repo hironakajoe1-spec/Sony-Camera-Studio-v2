@@ -4198,7 +4198,11 @@ console.log(
     <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
       <div class="text-slate-400 text-sm">Income</div>
       <div class="text-2xl font-bold text-green-400">
-        ¥${result.income.toLocaleString()}
+        const displayedIncome =
+  result.income > 0
+    ? result.income
+    : MONTHLY_SALARY;
+    ¥${displayedIncome.toLocaleString()}
       </div>
     </div>
 
