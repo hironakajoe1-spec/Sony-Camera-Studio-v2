@@ -4092,46 +4092,6 @@ function loadSavingsData() {
       'planner-results'
     ).innerHTML = `
       <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-
-        <h3 class="text-lg font-bold text-green-400">
-          ✅ CSV Loaded
-        </h3>
-
-        <div>
-          File: ${file.name}
-        </div>
-
-        <div>
-          Rows: ${csvText.split('\n').length}
-        </div>
-
-        <div class="mt-4 text-cyan-400">
-          🧠 Running AI analysis...
-        </div>
-
-      </div>
-    `;
-
-    analyzeSpending(csvText);
-
-  };
-
- function handleCSVUpload(event) {
-
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-
-    const csvText = e.target.result;
-
-    document.getElementById(
-      'planner-results'
-    ).innerHTML = `
-      <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
         <h3 class="text-lg font-bold text-green-400">
           ✅ CSV Loaded
         </h3>
@@ -4188,39 +4148,6 @@ ${JSON.stringify(result, null, 2)}
 
     </div>
   `;
-}
-    "https://sony-planner-ai.hironakajoe1.workers.dev",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        salary: 210000,
-        csv: csvText
-      })
-    }
-  );
-
-  const result = await response.json();
-
-  document.getElementById(
-    'planner-results'
-  ).innerHTML = `
-  <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-
-    <h3 class="text-xl font-bold text-cyan-400">
-      🧠 AI Financial Analysis
-    </h3>
-
-    <pre class="mt-4 whitespace-pre-wrap">
-${JSON.stringify(result, null, 2)}
-    </pre>
-
-  </div>
-  `;
-}
-
 window.addEventListener(
   'DOMContentLoaded',
   () => {
