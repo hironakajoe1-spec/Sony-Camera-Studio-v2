@@ -479,18 +479,38 @@ body {
   </div>
 
   <div
-    class="bg-slate-900 border border-slate-800 rounded-xl p-5"
-  >
+  class="bg-slate-900 border border-slate-800 rounded-xl p-5"
+>
 
-    <input
-      type="file"
-      id="csv-upload"
-      accept=".csv"
-      class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3"
+  <div class="mb-4">
+
+    <label class="block mb-2 text-slate-300">
+      AI Model
+    </label>
+
+    <select
+      id="ai-provider"
+      class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
     >
+      <option value="gemini">
+        Gemini
+      </option>
+
+      <option value="claude">
+        Claude
+      </option>
+    </select>
 
   </div>
 
+  <input
+    type="file"
+    id="csv-upload"
+    accept=".csv"
+    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3"
+  >
+
+</div>
   <div
     id="planner-results"
     class="mt-6"
@@ -4132,28 +4152,29 @@ function loadSavingsData() {
 
 async function analyzeSpending(csvText) {
 
-  alert("AI started");
+  const response = await fetch(
+    "https://sony-planner-ai.hironakajoe1.workers.dev/",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        salary: 210000,
+        csv: csvText,
+        aiProvider: document.getElementById(
+          "ai-provider"
+        ).value
+      })
+    }
+  );
 
-const response = await fetch(
-  "https://sony-planner-ai.hironakajoe1.workers.dev/",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      salary: 210000,
-      csv: csvText
-    })
-  }
-);
   const result = await response.json();
 
   document.getElementById(
     'planner-results'
   ).innerHTML = `
     <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-
       <h3 class="text-xl font-bold text-cyan-400">
         🧠 AI Financial Analysis
       </h3>
@@ -4161,7 +4182,6 @@ const response = await fetch(
       <pre class="mt-4 whitespace-pre-wrap">
 ${JSON.stringify(result, null, 2)}
       </pre>
-
     </div>
   `;
 }
