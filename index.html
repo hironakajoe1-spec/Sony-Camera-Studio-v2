@@ -59,6 +59,14 @@
     💰 Gear Savings
   </button>
 
+  <button
+    id="planner-tab"
+    onclick="showTab('planner')"
+    class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium"
+  >
+    🧠 Smart Planner
+  </button>
+
 </div>
 
 <!-- CAMERA STUDIO SECTION -->
@@ -434,6 +442,45 @@
   class="mt-6"
 ></div>
 </section>
+
+  <section
+  id="view-planner"
+  class="w-full px-2 space-y-3"
+  style="display:none"
+>
+
+  <div class="border-b border-slate-800 pb-4">
+
+    <h1 class="text-lg font-bold text-white">
+      🧠 Smart Planner
+    </h1>
+
+    <p class="text-slate-400 mt-1">
+      Upload your bank CSV and analyze spending habits.
+    </p>
+
+  </div>
+
+  <div
+    class="bg-slate-900 border border-slate-800 rounded-xl p-5"
+  >
+
+    <input
+      type="file"
+      id="csv-upload"
+      accept=".csv"
+      class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3"
+    >
+
+  </div>
+
+  <div
+    id="planner-results"
+    class="mt-6"
+  ></div>
+
+</section>
+
 
 <script>
     // --- CAMERA DATA STATE ---
@@ -3003,6 +3050,9 @@ function showTab(tab) {
   const savingsSection =
     document.getElementById('view-savings');
 
+  const plannerSection =
+  document.getElementById('view-planner');
+
   const cameraTab =
     document.getElementById('camera-tab');
 
@@ -3012,11 +3062,15 @@ function showTab(tab) {
   const savingsTab =
     document.getElementById('savings-tab');
 
-  if (tab === 'camera') {
+  const plannerTab =
+  document.getElementById('planner-tab');
 
-    cameraSection.style.display = 'block';
-    lensSection.style.display = 'none';
-    savingsSection.style.display = 'none';
+if (tab === 'camera') {
+
+  cameraSection.style.display = 'block';
+  lensSection.style.display = 'none';
+  savingsSection.style.display = 'none';
+  plannerSection.style.display = 'none';
 
     cameraTab.className =
       'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
@@ -3026,13 +3080,18 @@ function showTab(tab) {
 
     savingsTab.className =
       'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+  plannerTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+  
   }
 
-  if (tab === 'lens') {
+if (tab === 'lens') {
 
-    cameraSection.style.display = 'none';
-    lensSection.style.display = 'block';
-    savingsSection.style.display = 'none';
+  cameraSection.style.display = 'none';
+  lensSection.style.display = 'block';
+  savingsSection.style.display = 'none';
+  plannerSection.style.display = 'none';
 
     lensTab.className =
       'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
@@ -3042,13 +3101,18 @@ function showTab(tab) {
 
     savingsTab.className =
       'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+  plannerTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+  
   }
 
-  if (tab === 'savings') {
+if (tab === 'savings') {
 
-    cameraSection.style.display = 'none';
-    lensSection.style.display = 'none';
-    savingsSection.style.display = 'block';
+  cameraSection.style.display = 'none';
+  lensSection.style.display = 'none';
+  savingsSection.style.display = 'block';
+  plannerSection.style.display = 'none';
 
     savingsTab.className =
       'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
@@ -3058,7 +3122,30 @@ function showTab(tab) {
 
     lensTab.className =
       'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+  plannerTab.className =
+  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+  
   }
+
+if (tab === 'planner') {
+
+  cameraSection.style.display = 'none';
+  lensSection.style.display = 'none';
+  savingsSection.style.display = 'none';
+  plannerSection.style.display = 'block';
+}  
+  plannerTab.className =
+    'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
+
+  cameraTab.className =
+    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+  lensTab.className =
+    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+
+  savingsTab.className =
+    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
 
 }
 
