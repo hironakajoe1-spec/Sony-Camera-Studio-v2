@@ -4146,7 +4146,11 @@ function loadSavingsData() {
 
   };
 
-  reader.readAsText(file);
+  reader.readAsText(
+  file,
+  "Shift_JIS"
+);
+
 
 }
 
