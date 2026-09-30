@@ -1243,49 +1243,44 @@ document.getElementById("gear-preview").innerHTML = `
   ${camera ? `
   <div class="flex justify-center">
 
-${camera ? `
-<div class="flex justify-center">
+    <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-  <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+      <img
+        src="${camera.image}"
+        alt="${camera.name}"
+        class="w-full h-40 object-contain mb-3"
+   >
 
-    <img
-      src="${camera.image}"
-      alt="${camera.name}"
-class="w-full h-40 object-contain mb-3"
->
+      <div class="text-green-400 font-bold text-lg">
+        ¥${cameraPrice.toLocaleString()}
+      </div>
 
-<h3 class="text-xl font-bold text-white text-center mb-2">
-  ${camera.name}
-</h3>
- 
-<div class="text-green-400 font-bold text-lg mt-2">
     </div>
 
   </div>
+  ` : ""}
 
-</div>
-` : ""}
+  ${lens ? `
+  <div class="flex justify-center">
 
- ${lens ? `
-<div class="flex justify-center">
+    <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-  <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+      <img
+        src="${lens.image}"
+        alt="${lens.name}"
+        classmb-2">
+        ${lens.name}
+      </h3>
 
-    <img
-      src="${lens.image}"
-      alt="${lens.name}"
-      class="w-full h-40 object-contain mb-3"
->
+      <div class="text-green-400 font-bold text-lg">
+        ¥${lensPrice.toLocaleString()}
+      </div>
 
-<h3 class="text-xl font-bold text-white text-center mb-2">
-  ${lens.name}
-</h3>
-<div class="text-green-400 font-bold text-lg mt
+    </div>
 
   </div>
+  ` : ""}
 
-</div>
-` : ""}
 </div>
 
 <div class="mt-6 text-center">
