@@ -4129,6 +4129,7 @@ function loadSavingsData() {
     </p>
   </div>
 `;
+
     analyzeSpending(csvText);
 
   };
@@ -4143,48 +4144,46 @@ function loadSavingsData() {
 
 async function analyzeSpending(csvText) {
 
-const response = await fetch(
-  "https://sony-planner-ai.hironakajoe1.workers.dev/",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      salary: 210000,
-      csv: csvText,
-      aiProvider: document.getElementById(
-        "ai-provider"
-      ).value
-    })
-  }
-);
-  if (!response.ok) {
+  try {
 
-  document.getElementById(
-    "planner-results"
-  ).innerHTML = `
-    <div class="bg-red-900 p-5 rounded-xl">
-      API Error: ${response.status}
-    </div>
-  `;
+    const response = await fetch(
+      "https://sony-planner-ai.hironakajoe1.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          csv: csvText,
+          salary: MONTHLY_SALARY,
+          aiProvider: document.getElementById(
+            "ai-provider"
+          ).value
+        })
+      }
+    );
 
-  return;
-}
+    if (!response.ok) {
+      throw new Error(
+        `API Error: ${response.status}`
+      );
+    }
 
-  const resultText =
-  await response.text();
+    const result =
+      await response.json();
 
-const result =
-  JSON.parse(resultText);
+    const displayedIncome =
+      result.income > 0
+        ? result.income
+        : MONTHLY_SALARY;
 
-console.log(
-  "FULL RESPONSE:",
-  result
-);
-  
-  document.getElementById(
-  'planner-results'
+    console.log(
+      "FULL RESPONSE:",
+      result
+    );
+
+document.getElementById(
+  "planner-results"
 ).innerHTML = `
 
 <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
@@ -4196,30 +4195,43 @@ console.log(
   <div class="grid md:grid-cols-3 gap-4 mb-6">
 
     <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">Income</div>
+      <div class="text-slate-400 text-sm">
+        Income
+      </div>
+
       <div class="text-2xl font-bold text-green-400">
-        const displayedIncome =
-  result.income > 0
-    ? result.income
-    : MONTHLY_SALARY;
-    ¥${displayedIncome.toLocaleString()}
+        ¥${displayedIncome.toLocaleString()}
       </div>
     </div>
 
     <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">Expenses</div>
+      <div class="text-slate-400 text-sm">
+        Expenses
+      </div>
+
       <div class="text-2xl font-bold text-red-400">
-        ¥${result.expenses.toLocaleString()}
+        ¥${(result.expenses || 0).toLocaleString()}
       </div>
     </div>
 
     <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">Balance</div>
+      <div class="text-slate-400 text-sm">
+        Balance
+      </div>
+
       <div class="text-2xl font-bold text-blue-400">
-        ¥${result.balance.toLocaleString()}
+        ¥${(result.balance || 0).toLocaleString()}
       </div>
     </div>
 
+  </div>
+
+  <div class="bg-slate-950 rounded-xl p-4 border border-slate-700 mb-6">
+    <h4 class="text-lg font-bold text-cyan-400 mb-3">
+      📊 Spending Breakdown
+    </h4>
+
+    <canvas id="spendingChart"></canvas>
   </div>
 
   <div class="bg-slate-950 rounded-xl p-4 border border-slate-700 mb-6">
@@ -4228,7 +4240,7 @@ console.log(
     </h4>
 
     <ul class="space-y-2">
-      ${result.topCategories.map(cat => `
+      ${(result.topCategories || []).map(cat => `
         <li class="flex justify-between">
           <span>${cat.name}</span>
           <span class="font-bold">
@@ -4245,13 +4257,47 @@ console.log(
     </h4>
 
     <p>
-      ${result.advice}
+      ${result.advice || "No advice available."}
     </p>
   </div>
 
 </div>
+
 `;
+
+    new Chart(
+      document.getElementById(
+        "spendingChart"
+      ),
+      {
+        type: "doughnut",
+        data: {
+          labels: (result.topCategories || [])
+            .map(c => c.name),
+          datasets: [{
+            data: (result.topCategories || [])
+              .map(c => c.amount)
+          }]
+        }
+      }
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "planner-results"
+    ).innerHTML = `
+      <div class="bg-red-900 p-5 rounded-xl">
+        Failed to analyze CSV.
+      </div>
+    `;
+
+  }
+
 }
+  
 window.addEventListener(
   'DOMContentLoaded',
   () => {
