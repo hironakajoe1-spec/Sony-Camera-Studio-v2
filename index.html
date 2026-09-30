@@ -4184,17 +4184,10 @@ console.log(
   JSON.stringify(result, null, 2)
 );
 
-    } catch (error) {
- 
-console.error(error);
-    
 document.getElementById(
-  "planner-results"
+"planner-results"
 ).innerHTML = `
-<div class="bg-red-900 p-5 rounded-xl">
-${error.message}
-</div>
-
+    
 <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
 
   <h3 class="text-2xl font-bold text-cyan-400 mb-5">
@@ -4340,6 +4333,21 @@ spendingChart = new Chart(
     }
   }
 );
+
+} catch (error) {
+ 
+console.error(error);
+ 
+document.getElementById(
+"planner-results"
+).innerHTML = `
+<div class="bg-red-900 p-5 rounded-xl">
+${error.message}
+</div>
+`;
+}
+ 
+}
   
 window.addEventListener(
   'DOMContentLoaded',
