@@ -1282,16 +1282,13 @@ ${camera ? `
 ${lens ? `
 <div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-<img
-  src="${lens.image}"
-  alt="${lens.name}"
-  class="w-full h-40 object-contain mb-3"
->
+  ${lens.image}
 
-<div class="text-green-400 font-bold text-lg mt-2">
-  ¥${lensPrice.toLocaleString()}
+  <div class="text-green-400 font-bold text-lg mt-2">
+    ¥${lensPrice.toLocaleString()}
+  </div>
+
 </div>
-
 ` : ""}
 
 </div>
@@ -1709,11 +1706,15 @@ grid.innerHTML = camerasData.map(cam => `
       }
     </div>
 
-    <img
-      src="${cam.image}"
-    lg font-bold text-white">
-      ${cam.name}
-    </h3>
+<img
+  src="${cam.image}"
+  alt="${cam.name}"
+  class="w-full h-40 object-contain mb-3"
+>
+
+<h3 class="text-lg font-bold text-white">
+  ${cam.name}
+</
 
     ${
       priceSource
@@ -4364,33 +4365,6 @@ if (!chartCanvas) return;
 
 spendingChart = new Chart(
   chartCanvas,
-  {
-    type: "doughnut",
-    data: {
-      labels: (result.categories || [])
-        .map(c => c.name),
-
-      datasets: [{
-        data: (result.categories || [])
-          .map(c => c.total)
-      }]
-    },
-
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: 0
-      },
-      cutout: "75%",
-      plugins: {
-        legend: {
-          display: false
-        }
-      }
-    }
-  }
-);
 
   {
     type: "doughnut",
