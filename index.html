@@ -4265,22 +4265,24 @@ document.getElementById(
 
 `;
 
-    new Chart(
-      document.getElementById(
-        "spendingChart"
-      ),
-      {
-        type: "doughnut",
-        data: {
-          labels: (result.topCategories || [])
-            .map(c => c.name),
-          datasets: [{
-            data: (result.topCategories || [])
-              .map(c => c.amount)
-          }]
-        }
-      }
-    );
+let spendingChart = null;
+
+if (spendingChart) {
+  spendingChart.destroy();
+}
+
+spendingChart = new Chart(
+  document.getElementById("spendingChart"),
+  {
+    type: "doughnut",
+    data: {
+      labels: result.topCategories.map(c => c.name),
+      datasets: [{
+        data: result.topCategories.map(c => c.amount)
+      }]
+    }
+  }
+);
 
   } catch (error) {
 
