@@ -1198,60 +1198,46 @@ document.getElementById(
 }
 
 function selectGearFromDropdown() {
-
-  const source =
-    document.getElementById(
-      "price-source"
-    ).value;
-
-  const cameraId =
-    document.getElementById(
-      "camera-selector"
-    ).value;
-
-  const lensId =
-    document.getElementById(
-      "lens-selector"
-    ).value;
-
-  const camera =
-    camerasData.find(
-      c => c.id === cameraId
-    );
-
-  const lens =
-    lensesData.find(
-      l => l.id === lensId
-    );
-
-  if (!camera && !lens) {
-
-  document.getElementById("gear-preview").innerHTML = `
-    <div class="text-center text-slate-400">
-      Select a camera and/or lens
-    </div>
-  `;
-
-  document.getElementById("gear-goal").value = 0;
-
-  return;
+ 
+const source =
+document.getElementById("price-source").value;
+ 
+const cameraId =
+document.getElementById("camera-selector").value;
+ 
+const lensId =
+document.getElementById("lens-selector").value;
+ 
+const camera =
+camerasData.find(c => c.id === cameraId);
+ 
+const lens =
+lensesData.find(l => l.id === lensId);
+ 
+if (!camera && !lens) {
+ 
+document.getElementById("gear-preview").innerHTML = `
+<div class="text-center text-slate-400">
+Select a camera and/or lens
+</div>
+`;
+ 
+document.getElementById("gear-goal").value = 0;
+ 
+return;
 }
-
-  const cameraPrice =
-    camera
-      ? camera.prices[source]
-      : 0;
-
-  const lensPrice =
-    lens
-      ? lens.prices[source]
-      : 0;
-
-  const totalPrice =
-    cameraPrice + lensPrice;
-
-  document.getElementById("gear-preview").innerHTML = `
-
+ 
+const cameraPrice =
+camera ? camera.prices[source] : 0;
+ 
+const lensPrice =
+lens ? lens.prices[source] : 0;
+ 
+const totalPrice =
+cameraPrice + lensPrice;
+ 
+document.getElementById("gear-preview").innerHTML = `
+ 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
 ${camera ? `
