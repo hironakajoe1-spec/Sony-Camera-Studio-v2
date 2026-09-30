@@ -1265,9 +1265,9 @@ ${camera ? `
 
   <div class="w-fit bg-slate-950 border border-slate-700 rounded-xl p-4">
 
-    <img
-      src="${camera.image}"
-      alt="${camera.name}"e text-center mt-3">
+    ${camera.image}
+
+    <h3 class="text-lg font-bold text-white text-center mt-3">
       ${camera.name}
     </h3>
 
@@ -1279,7 +1279,6 @@ ${camera ? `
 
 </div>
 ` : ""}
-
 ${lens ? `
 <div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
