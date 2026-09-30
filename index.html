@@ -1260,7 +1260,8 @@ ${camera ? `
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
-      src="${   <h3 class="text-lg font-bold text-white">
+      src="${camera.image}"
+      alt="${camera.t-white">
       ${camera.name}
     </h3>
 
@@ -1272,16 +1273,14 @@ ${camera ? `
 
 </div>
 ` : ""}
-
 ${lens ? `
 <div class="flex justify-center">
 
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
-      src="${lens.image}"
-      alt="${lens.name}"
-      class="w-fullame}
+      src="${lens.image="text-lg font-bold text-white">
+      ${lens.name}
     </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
@@ -1292,7 +1291,6 @@ ${lens ? `
 
 </div>
 ` : ""}
-
 <div class="mt-6 text-center">
 
   <div class="text-slate-400 text-lg">
