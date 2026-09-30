@@ -1266,7 +1266,8 @@ ${camera ? `
   <div class="w-fit bg-slate-950 border border-slate-700 rounded-xl p-4">
 
     <img
-      src="${camera.image="text-lg font-bold text-white text-center mt-3">
+      src="${camera.image}"
+      alt="${camera.name}"e text-center mt-3">
       ${camera.name}
     </h3>
 
@@ -1707,10 +1708,6 @@ h-full
       : 'APS-C'
   }
 </div>
-
-${camera ? `
-<div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
-
   <img
   src="${cam.image}"
   alt="${cam.name}"
@@ -4375,12 +4372,44 @@ if (spendingChart) {
   spendingChart.destroy();
 }
 
-spendingChart = new Chart(
-  document.getElementById("spendingChart"),
-  const chartCanvas =
+if (spendingChart) {
+  spendingChart.destroy();
+}
+
+const chartCanvas =
   document.getElementById("spendingChart");
 
 if (!chartCanvas) return;
+
+spendingChart = new Chart(
+  chartCanvas,
+  {
+    type: "doughnut",
+    data: {
+      labels: (result.categories || [])
+        .map(c => c.name),
+
+      datasets: [{
+        data: (result.categories || [])
+          .map(c => c.total)
+      }]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: 0
+      },
+      cutout: "75%",
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  }
+);
 
   {
     type: "doughnut",
