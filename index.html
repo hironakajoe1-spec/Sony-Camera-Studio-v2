@@ -4311,22 +4311,18 @@ spendingChart = new Chart(
   {
     type: "doughnut",
     data: {
-labels: (result.categories || []).map(c => c.name),
-
-datasets: [{
-  data: (result.categories || []).map(c => c.total)
-}]
+      labels: (result.categories || []).map(c => c.name),
+      datasets: [{
+        data: (result.categories || []).map(c => c.total)
+      }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-
       layout: {
         padding: 0
       },
-
       cutout: '75%',
-
       plugins: {
         legend: {
           display: false
@@ -4334,9 +4330,22 @@ datasets: [{
       }
     }
   }
-);  
-catch (error) {
+);
 
+} catch (error) {
+
+  console.error(error);
+
+  document.getElementById(
+    "planner-results"
+  ).innerHTML = `
+    <div class="bg-red-900 p-5 rounded-xl">
+      ${error.message}
+    </div>
+  `;
+}
+
+} // closes analyzeSpending()
   console.error(error);
 
   document.getElementById(
