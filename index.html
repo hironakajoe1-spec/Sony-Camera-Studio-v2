@@ -4161,8 +4161,7 @@ const response = await fetch(
       aiProvider: document.getElementById("ai-provider").value
     })
   }
-);
-    if (!response.ok) {
+);    if (!response.ok) {
       throw new Error(
         `API Error: ${response.status}`
       );
