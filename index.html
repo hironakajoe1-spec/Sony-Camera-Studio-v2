@@ -1251,6 +1251,10 @@ document.getElementById("gear-preview").innerHTML = `
   class="w-full h-40 object-contain mb-3"
 >
 
+<h3 class="text-xl font-bold text-white mb-2">
+${camera.name}
+</h3>
+
       <div class="text-green-400 font-bold text-lg">
         ¥${cameraPrice.toLocaleString()}
       </div>
@@ -1268,11 +1272,14 @@ document.getElementById("gear-preview").innerHTML = `
       <img
         src="${lens.image}"
         alt="${lens.name}"
-        class="w-full h-40 object-cont3>
+       class="w-full h-40 object-contain mb-3"
+>
+
+  <h3 class="text-xl font-bold text-white mb-2">
+${lens.name}
+</h3>
 
       <div class="text-green-400 font-bold text-lg">
-        ¥${lensPrice.toLocaleString()}
-      </div>
 
     </div>
 
