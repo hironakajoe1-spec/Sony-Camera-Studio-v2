@@ -1170,21 +1170,29 @@ function selectGear(name, price) {
 
 function updateGearList() {
 
-  document.getElementById(
-    'camera-selector'
-  ).innerHTML = camerasData.map(camera => `
-    <option value="${camera.id}">
-      ${camera.name}
-    </option>
-  `).join('');
+document.getElementById(
+  'camera-selector'
+).innerHTML = `
+  <option value="">
+    -- No Camera --
+  </option>
+` + camerasData.map(camera => `
+  <option value="${camera.id}">
+    ${camera.name}
+  </option>
+`).join('');
 
-  document.getElementById(
-    'lens-selector'
-  ).innerHTML = lensesData.map(lens => `
-    <option value="${lens.id}">
-      ${lens.name}
-    </option>
-  `).join('');
+document.getElementById(
+  'lens-selector'
+).innerHTML = `
+  <option value="">
+    -- No Lens --
+  </option>
+` + lensesData.map(lens => `
+  <option value="${lens.id}">
+    ${lens.name}
+  </option>
+`).join('');
 
   selectGearFromDropdown();
 }
@@ -1216,11 +1224,88 @@ const lens =
     l => l.id === lensId
   );
 
-  if (!camera || !lens) return;
+  if (!camera && !lens) {
+
+  document.getElementById(
+    'gear-preview'
+  ).innerHTML = `
+    <div class="text-center text-slate-400">
+      Select a camera and/or lens
+    </div>
+  `;
+
+  document.getElementById(
+    'gear-goal'
+  ).value = 0;
+
+  return;
+}
+
+const cameraPrice =
+  camera
+    ? camera.prices[source]
+    : 0;
+
+const lensPrice =
+  lens
+    ? lens.prices[source]
+    : 0;
 
 const totalPrice =
-  camera.prices[source] +
-  lens.prices[source];
+  cameraPrice + lensPrice;
+
+  document.getElementById(
+  'gear-preview'
+).innerHTML = `
+
+<div class="grid md:grid-cols-${camera && lens ? 2 : 1} gap-6 max-w-4xl mx-auto">
+
+  ${camera ? `
+  <div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+
+    <img
+      src="${camera.image}"
+      alt="${camera.name}"
+      classcamera.name}
+    </h3>
+
+    <div class="text-green-400 font-bold text-lg mt-2">
+      ¥${cameraPrice.toLocaleString()}
+    </div>
+
+  </div>
+  ` : ''}
+
+  ${lens ? `
+  <div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+
+    <img
+      src="${lens.image}"
+      alt="${lens.name}"
+      class${lens.name}
+    </h3>
+
+    <div class="text-green-400 font-bold text-lg mt-2">
+      ¥${lensPrice.toLocaleString()}
+    </div>
+
+  </div>
+  ` : ''}
+
+</div>
+
+<div class="mt-6 text-center">
+
+  <div class="text-slate-400 text-lg">
+    Total Selected Gear Price
+  </div>
+
+  <div class="text-4xl font-bold text-cyan-400 mt-2">
+    ¥${totalPrice.toLocaleString()}
+  </div>
+
+</div>
+`;
 
 document.getElementById(
   'gear-goal'
