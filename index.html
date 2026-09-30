@@ -4163,9 +4163,11 @@ const response = await fetch(
   }
 );
     if (!response.ok) {
-      throw new Error(
-        `API Error: ${response.status}`
-      );
+const errorBody = await response.text();
+
+throw new Error(
+  `API Error ${response.status}: ${errorBody}`
+);
     }
 
     const result =
@@ -4249,13 +4251,13 @@ ${(result.categories || []).map(category => `
 
 <details class="bg-slate-900 rounded-lg p-3">
 
-  <summary class="cursor-pointer font-bold text-cyan-400">
+<summary class="cursor-pointer font-bold text-cyan-400">
 
-    ${category.name}
-    •
-    ¥${category.total.toLocalString()}
+  ${category.name}
+  •
+  ¥${category.total.toLocaleString()}
 
-  </summary>
+</summary>
 
   <div class="mt-3 space-y-2">
 
