@@ -1221,61 +1221,48 @@ document.getElementById("gear-preview").innerHTML = `
 Select a camera and/or lens
 </div>
 `;
- 
-document.getElementById("gear-goal").value = 0;
- 
-return;
-}
- 
-const cameraPrice =
-camera ? camera.prices[source] : 0;
- 
-const lensPrice =
-lens ? lens.prices[source] : 0;
- 
-const totalPrice =
-cameraPrice + lensPrice;
  document.getElementById("gear-preview").innerHTML = `
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
- ${camera ? `
-<div class="flex justify-center">
+  ${camera ? `
+  <div class="flex justify-center">
 
-  <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+    <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-    <img
-      src="${camera.image}"
-      alt="${camera.name}"
-      classcamera.name}
-    </h3>
+      <img
+        src="${camera.image}"
+        alt="${camera.name}"
+        class="w-full h-40 object-contain mb-3"
+class="text-green-400 font-bold text-lg mt-2">
+        ¥${cameraPrice.toLocaleString()}
+      </div>
 
-    <div class="text-green-400 font-bold text-lg mt-2">
-      ¥${cameraPrice.toLocaleString()}
     </div>
 
   </div>
+  ` : ""}
 
-</div>
-` : ""}
+  ${lens ? `
+  <div class="flex justify-center">
 
- ${lens ? `
-<div class="flex justify-center">
+    <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-  <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
+      <img
+        src="${lens.image}"
+        alt="${lens.name}"
+        class="ns.name}
+      </h3>
 
-    <img
-      src="${lens.image}"
-      alt="${lens.name}"
-      class="w-full h-40 object-contain mb-3"
-   ="text-green-400 font-bold text-lg mt-2">
-      ¥${lensPrice.toLocaleString()}
+      <div class="text-green-400 font-bold text-lg mt-2">
+        ¥${lensPrice.toLocaleString()}
+      </div>
+
     </div>
 
   </div>
+  ` : ""}
 
-</div>
-` : ""}
 </div>
 
 <div class="mt-6 text-center">
@@ -1292,9 +1279,7 @@ cameraPrice + lensPrice;
 
 `;
 
-document.getElementById("gear-goal").value =
-  totalPrice;
-``
+document.getElementById("gear-goal").value = totalPrice;
 
 }
 
