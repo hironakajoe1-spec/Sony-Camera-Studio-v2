@@ -4232,9 +4232,9 @@ document.getElementById(
     📊 Spending Breakdown
   </h4>
 
-  <div class="max-w-md mx-auto h-80">
-    <canvas id="spendingChart"></canvas>
-  </div>
+<div class="w-56 h-56 mx-auto">
+  <canvas id="spendingChart"></canvas>
+</div>
 
 </div>
 
@@ -4286,7 +4286,8 @@ spendingChart = new Chart(
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      cutout: '80%'
     }
   }
 );
