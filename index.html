@@ -4176,10 +4176,9 @@ const displayedIncome =
     ? Number(result.income)
     : MONTHLY_SALARY;
 
-    console.log(
-      "FULL RESPONSE:",
-      result
-    );
+console.log(
+  JSON.stringify(result, null, 2)
+);
 
 document.getElementById(
   "planner-results"
@@ -4254,7 +4253,7 @@ ${(result.categories || []).map(category => `
 
     ${category.name}
     •
-    ¥${category.total.toLocaleString()}
+    ¥${category.total.toLocalString()}
 
   </summary>
 
