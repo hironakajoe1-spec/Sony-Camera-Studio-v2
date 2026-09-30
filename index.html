@@ -4155,11 +4155,38 @@ const response = await fetch(
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      csv: csvText,
-      salary: MONTHLY_SALARY,
-      aiProvider: document.getElementById("ai-provider").value
-    })
+body: JSON.stringify({
+  csv: csvText,
+  salary: MONTHLY_SALARY,
+
+  aiProvider:
+    document.getElementById("ai-provider").value,
+
+  gearGoal:
+    Number(
+      document.getElementById("gear-goal").value
+    ) || 0,
+
+  currentSavings:
+    Number(
+      document.getElementById("current-savings").value
+    ) || 0,
+
+  monthlySavings:
+    Number(
+      document.getElementById("monthly-savings").value
+    ) || 0,
+
+  selectedCamera:
+    document.getElementById(
+      "camera-selector"
+    ).selectedOptions[0]?.text,
+
+  selectedLens:
+    document.getElementById(
+      "lens-selector"
+    ).selectedOptions[0]?.text
+})
   }
 );
     
@@ -4299,6 +4326,16 @@ ${(result.categories || []).map(category => `
       ${result.advice || "No advice available."}
     </p>
   </div>
+
+  <div class="bg-slate-950 rounded-xl p-4 border border-slate-700 mt-4">
+  <h4 class="text-lg font-bold text-green-400 mb-3">
+    📷 Sony Gear Roadmap
+  </h4>
+
+  <p>
+    ${result.gearPlan || "No gear plan available."}
+  </p>
+</div>
 
 </div>
 
