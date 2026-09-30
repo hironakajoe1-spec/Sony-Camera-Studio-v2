@@ -1226,7 +1226,34 @@ function selectGearFromDropdown() {
 
   if (!camera && !lens) {
 
-    document.getElementById("gear-preview").innerHTML = `
+  document.getElementById("gear-preview").innerHTML = `
+    <div class="text-center text-slate-400">
+      Select a camera and/or lens
+    </div>
+  `;
+
+  document.getElementById("gear-goal").value = 0;
+
+  return;
+}
+
+    return;
+  }
+
+  const cameraPrice =
+    camera
+      ? camera.prices[source]
+      : 0;
+
+  const lensPrice =
+    lens
+      ? lens.prices[source]
+      : 0;
+
+  const totalPrice =
+    cameraPrice + lensPrice;
+
+  document.getElementById("gear-preview").innerHTML = `
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
@@ -1238,7 +1265,8 @@ ${camera ? `
     <img
       src="${camera.image}"
       alt="${camera.name}"
-      class="w-full h-40 object3>
+         ${camera.name}
+    </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
       ¥${cameraPrice.toLocaleString()}
@@ -1257,8 +1285,10 @@ ${lens ? `
     <img
       src="${lens.image}"
       alt="${lens.name}"
-      class="w-full h-40 object-contain mb-3"
-ass="text-green-400 font-bold text-lg mt-2">
+      class${lens.name}
+    </h3>
+
+    <div class="text-green-400 font-bold text-lg mt-2">
       ¥${lensPrice.toLocaleString()}
     </div>
 
@@ -1282,32 +1312,7 @@ ass="text-green-400 font-bold text-lg mt-2">
 </div>
 
 `;
-      <div class="text-center text-slate-400">
-        Select a camera and/or lens
-      </div>
-    `;
 
-    document.getElementById(
-      "gear-goal"
-    ).value = 0;
-
-    return;
-  }
-
-  const cameraPrice =
-    camera
-      ? camera.prices[source]
-      : 0;
-
-  const lensPrice =
-    lens
-      ? lens.prices[source]
-      : 0;
-
-  const totalPrice =
-    cameraPrice + lensPrice;
-
-¥${lensPrice.toLocaleString()}
   document.getElementById(
     "gear-goal"
   ).value = totalPrice;
