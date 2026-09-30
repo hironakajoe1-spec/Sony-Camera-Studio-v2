@@ -4232,7 +4232,14 @@ document.getElementById(
     📊 Spending Breakdown
   </h4>
 
-<div class="w-56 h-56 mx-auto">
+<div
+  style="
+    width:150px;
+    height:150px;
+    margin:auto;
+    position:relative;
+  "
+>
   <canvas id="spendingChart"></canvas>
 </div>
 
@@ -4284,13 +4291,16 @@ spendingChart = new Chart(
         data: (result.topCategories || []).map(c => c.amount)
       }]
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '80%'
+options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  cutout: '80%',
+  plugins: {
+    legend: {
+      position: 'bottom'
     }
   }
-);
+}
 
   } catch (error) {
 
