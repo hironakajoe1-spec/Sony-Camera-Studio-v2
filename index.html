@@ -1248,8 +1248,8 @@ document.getElementById("gear-preview").innerHTML = `
       <img
         src="${camera.image}"
         alt="${camera.name}"
-        class="w-full h-40 object-contain mb-3"
-   >
+        class ${camera.name}
+      </h3>
 
       <div class="text-green-400 font-bold text-lg">
         ¥${cameraPrice.toLocaleString()}
@@ -1268,9 +1268,7 @@ document.getElementById("gear-preview").innerHTML = `
       <img
         src="${lens.image}"
         alt="${lens.name}"
-        classmb-2">
-        ${lens.name}
-      </h3>
+        class="w-full h-40 object-cont3>
 
       <div class="text-green-400 font-bold text-lg">
         ¥${lensPrice.toLocaleString()}
@@ -1295,196 +1293,7 @@ document.getElementById("gear-preview").innerHTML = `
 
 </div>
 
-`;
-
-  document.getElementById("gear-goal").value =
-    totalPrice;
-}
-
-function calculateSavings() {
-
-  const goal =
-    Number(
-      document.getElementById('gear-goal').value
-    ) || 0;
-
-const current =
-  Number(
-    document.getElementById('current-savings').value
-  ) || 0;
-
-const spending =
-  Number(
-    document.getElementById('monthly-spending').value
-  ) || 0;
-
-const monthly =
-  Number(
-    document.getElementById('monthly-savings').value
-  ) || 0;
-
-const availableCash =
-  MONTHLY_SALARY + current;
-
-const moneyLeft =
-  Math.max(
-    availableCash -
-    spending -
-    monthly,
-    0
-  );
-
-const remaining =
-  Math.max(goal - current, 0);
-
- const monthsNeeded =
-  monthly > 0
-    ? Math.ceil(remaining / monthly)
-    : '-';
-
-  const progress =
-    goal > 0
-      ? Math.min(
-          (current / goal) * 100,
-          100
-        )
-      : 0;
-
-let finishText = 'Enter monthly savings';
-
-if (remaining === 0) {
-  finishText = 'Ready to Purchase 🎉';
-}
-
-  if (monthly > 0 && remaining > 0) {
-
-    const finishDate = new Date();
-
-    finishDate.setMonth(
-      finishDate.getMonth() + monthsNeeded
-    );
-
-    finishText =
-      finishDate.toLocaleDateString(
-        'en-US',
-        {
-          month: 'long',
-          year: 'numeric'
-        }
-      );
-  }
-
-  document.getElementById(
-    'savings-results'
-  ).innerHTML = `
-
-<div class="bg-slate-950 border border-slate-700 rounded-xl p-5">
-
-  <h3 class="text-xl font-bold text-green-400 mb-4">
-    💰 Savings Progress
-  </h3>
-
-<div class="grid md:grid-cols-4 gap-4 mb-5">
-
-  <div>
-    💼 Salary:
-    <span class="text-green-400">
-      ¥${MONTHLY_SALARY.toLocaleString()}
-    </span>
-  </div>
-
-  <div>
-    💵 Available Cash:
-    <span class="text-emerald-400">
-      ¥${availableCash.toLocaleString()}
-    </span>
-  </div>
-
-  <div>
-    💰 Monthly Savings:
-    <span class="text-cyan-400">
-      ¥${monthly.toLocaleString()}
-    </span>
-  </div>
-
-  <div>
-    💸 Monthly Spending:
-    <span class="text-orange-400">
-      ¥${spending.toLocaleString()}
-    </span>
-  </div>
-
-</div>
-
-<div class="grid md:grid-cols-3 gap-4 text-lg mb-5">
-
-  <div>
-    Goal Amount:
-    <span class="text-blue-400">
-      ¥${goal.toLocaleString()}
-    </span>
-  </div>
-
-  <div>
-    Current Savings:
-    <span class="text-green-400">
-      ¥${current.toLocaleString()}
-    </span>
-  </div>
-
-  <div>
-    Money Left:
-    <span class="${
-      moneyLeft >= 0
-        ? 'text-green-400'
-        : 'text-red-400'
-    } font-bold">
-      ¥${moneyLeft.toLocaleString()}
-    </span>
-  </div>
-
-</div>
-
-<div class="mt-5">
-
-  <div class="w-full bg-slate-800 rounded-full h-4">
-    <div
-      class="bg-green-500 h-4 rounded-full"
-      style="width:${progress}%"
-    ></div>
-  </div>
-
-  <div class="mt-2 text-sm text-slate-400">
-    ${progress.toFixed(1)}% Saved
-  </div>
-
-</div>
-
-<div class="mt-4 text-lg">
-
-<div class="grid md:grid-cols-2 gap-6 mt-5 text-lg">
-
-  <div>
-    Months Needed:
-    <span class="text-purple-400">
-      ${monthsNeeded}
-    </span>
-  </div>
-
-  <div class="md:text-right">
-    📅 Estimated Purchase Date:
-    <span class="text-cyan-400">
-      ${finishText}
-    </span>
-  </div>
-
-</div>
-</div>
-</div>
-
-
-`;
-}
+`;}
 
 let spendingChart = null;
 
