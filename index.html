@@ -4332,21 +4332,20 @@ datasets: [{
       }
     }
   }
-);  } catch (error) {
+);  
+catch (error) {
 
-    console.error(error);
+  console.error(error);
 
-    document.getElementById(
-      "planner-results"
-    ).innerHTML = `
-      <div class="bg-red-900 p-5 rounded-xl">
-        Failed to analyze CSV.
-      </div>
-    `;
-
-  }
-
+  document.getElementById(
+    "planner-results"
+  ).innerHTML = `
+    <div class="bg-red-900 p-5 rounded-xl">
+      ${error.message}
+    </div>
+  `;
 }
+
   
 window.addEventListener(
   'DOMContentLoaded',
