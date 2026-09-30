@@ -1260,10 +1260,11 @@ ${camera ? `
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
-      src="${camera.image}"
-      alt="${camera.name}"
-      class="w-full h-40 object-contain mb-3"
-   ="text-green-400 font-bold text-lg mt-2">
+      src="${   <h3 class="text-lg font-bold text-white">
+      ${camera.name}
+    </h3>
+
+    <div class="text-green-400 font-bold text-lg mt-2">
       ¥${cameraPrice.toLocaleString()}
     </div>
 
@@ -1280,7 +1281,7 @@ ${lens ? `
     <img
       src="${lens.image}"
       alt="${lens.name}"
-      class="w-ns.name}
+      class="w-fullame}
     </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
