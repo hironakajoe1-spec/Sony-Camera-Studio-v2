@@ -1235,20 +1235,19 @@ lens ? lens.prices[source] : 0;
  
 const totalPrice =
 cameraPrice + lensPrice;
- 
-document.getElementById("gear-preview").innerHTML = `
- 
+ document.getElementById("gear-preview").innerHTML = `
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
-${camera ? `
+ ${camera ? `
 <div class="flex justify-center">
 
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
       src="${camera.image}"
-      alt="${camera.t-white">
-      ${camera.name}
+      alt="${camera.name}"
+      classcamera.name}
     </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
@@ -1259,17 +1258,17 @@ ${camera ? `
 
 </div>
 ` : ""}
-${lens ? `
+
+ ${lens ? `
 <div class="flex justify-center">
 
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
-      src="${lens.image="text-lg font-bold text-white">
-      ${lens.name}
-    </h3>
-
-    <div class="text-green-400 font-bold text-lg mt-2">
+      src="${lens.image}"
+      alt="${lens.name}"
+      class="w-full h-40 object-contain mb-3"
+   ="text-green-400 font-bold text-lg mt-2">
       ¥${lensPrice.toLocaleString()}
     </div>
 
@@ -1277,6 +1276,8 @@ ${lens ? `
 
 </div>
 ` : ""}
+</div>
+
 <div class="mt-6 text-center">
 
   <div class="text-slate-400 text-lg">
@@ -1291,9 +1292,9 @@ ${lens ? `
 
 `;
 
-  document.getElementById(
-    "gear-goal"
-  ).value = totalPrice;
+document.getElementById("gear-goal").value =
+  totalPrice;
+``
 
 }
 
