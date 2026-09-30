@@ -1265,7 +1265,10 @@ ${camera ? `
 
   <div class="w-fit bg-slate-950 border border-slate-700 rounded-xl p-4">
 
-    ${camera.image}
+    <img
+  src="${camera.image}"
+  alt="${camera.name}"
+  class="max-h-40 w-auto object-contain mx
 
     <h3 class="text-lg font-bold text-white text-center mt-3">
       ${camera.name}
@@ -1282,7 +1285,11 @@ ${camera ? `
 ${lens ? `
 <div class="bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
-  ${lens.image}
+  $<img
+src="${lens.image}"
+-green-400 font-bold text-lg mt-2">
+¥${lensPrice.toLocaleString()}
+</div>
 
   <div class="text-green-400 font-bold text-lg mt-2">
     ¥${lensPrice.toLocaleString()}
