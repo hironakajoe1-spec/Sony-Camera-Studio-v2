@@ -1256,9 +1256,10 @@ function selectGearFromDropdown() {
 
   document.getElementById(
     "gear-preview"
-  ).innerHTML = `
 
-<div class="grid md:grid-cols-${camera && lens ? 2 : 1} gap-6 max-w-4xl mx-auto">
+    document.getElementById("gear-preview").innerHTML = `
+ 
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
 ${camera ? `
 <div class="flex justify-center">
@@ -1267,8 +1268,8 @@ ${camera ? `
 
     <img
       src="${camera.image}"
-      alt="${camera.name}"
-      class=" ${camera.name}
+   -lg font-bold text-white mt-3">
+      ${camera.name}
     </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
@@ -1286,9 +1287,8 @@ ${lens ? `
   <div class="w-96 bg-slate-950 border border-slate-700 rounded-xl p-4 text-center">
 
     <img
-      src="${lens.image}"
-      alt="${lens.name}"
-      class     ${lens.name}
+      src="${lens class="text-lg font-bold text-white mt-3">
+      ${lens.name}
     </h3>
 
     <div class="text-green-400 font-bold text-lg mt-2">
