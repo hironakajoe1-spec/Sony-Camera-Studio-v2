@@ -2901,6 +2901,9 @@ function showTab(tab) {
   const plannerSection =
   document.getElementById('view-planner');
 
+  const isoSection =
+  document.getElementById('view-iso');
+
   const cameraTab =
     document.getElementById('camera-tab');
 
@@ -2912,6 +2915,9 @@ function showTab(tab) {
 
   const plannerTab =
   document.getElementById('planner-tab');
+
+  const isoTab =
+  document.getElementById('iso-tab');
 
 if (tab === 'camera') {
 
@@ -3007,6 +3013,17 @@ plannerTab.className =
   savingsTab.className =
     'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
 }
+
+  if (tab === 'iso') {
+
+  cameraSection.style.display = 'none';
+  lensSection.style.display = 'none';
+  savingsSection.style.display = 'none';
+  plannerSection.style.display = 'none';
+  isoSection.style.display = 'block';
+
+  isoTab.className =
+    'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
 
 }
   
@@ -4243,6 +4260,63 @@ function initIsoSimulator() {
       renderISO(iso);
 
     });
+}
+
+  function renderISO(iso) {
+
+  const canvas =
+    document.getElementById("isoCanvas");
+
+  if (!canvas) return;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.drawImage(
+    isoImage,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  const imageData =
+    ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+  const data =
+    imageData.data;
+
+  const noiseAmount =
+    Math.min(
+      (iso / 51200) * 100,
+      100
+    );
+
+  for (
+    let i = 0;
+    i < data.length;
+    i += 4
+  ) {
+
+    const noise =
+      (Math.random() - 0.5)
+      * noiseAmount;
+
+    data[i] += noise;
+    data[i + 1] += noise;
+    data[i + 2] += noise;
+  }
+
+  ctx.putImageData(
+    imageData,
+    0,
+    0
+  );
 }
   
 window.addEventListener(
