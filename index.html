@@ -4210,6 +4210,40 @@ ${error.message}
 }
  
 }
+  let isoImage = new Image();
+
+function initIsoSimulator() {
+
+  const canvas =
+    document.getElementById("isoCanvas");
+
+  if (!canvas) return;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  isoImage.src =
+    "images/iso-demo.jpg";
+
+  isoImage.onload = () => {
+    renderISO(100);
+  };
+
+  document
+    .getElementById("isoSlider")
+    .addEventListener("input", (e) => {
+
+      const iso =
+        Number(e.target.value);
+
+      document
+        .getElementById("isoValue")
+        .textContent = iso;
+
+      renderISO(iso);
+
+    });
+}
   
 window.addEventListener(
   'DOMContentLoaded',
@@ -4271,6 +4305,8 @@ document
     loadSavingsData();
     
     calculateSavings();
+
+    initIsoSimulator();
 
     // Lens filter
     document
