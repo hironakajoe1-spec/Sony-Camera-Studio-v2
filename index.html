@@ -4314,9 +4314,14 @@ function initIsoSimulator() {
   isoImage.src =
     "images/iso-demo.jpg";
 
-  isoImage.onload = () => {
-    renderISO(100);
-  };
+isoImage.onload = () => {
+  console.log("Image loaded");
+  renderISO(100);
+};
+
+isoImage.onerror = () => {
+  console.error("Image failed to load");
+};
 
   document
     .getElementById("isoSlider")
