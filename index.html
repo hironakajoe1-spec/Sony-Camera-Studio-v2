@@ -118,7 +118,9 @@
     </div>
     <!-- Camera Catalog Cards -->
     <div id="camera-card-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
-    </div><!-- Side-by-Side Spec Comparison Matrix -->
+   <div id="camera-card-grid"></div>
+
+<!-- Side-by-Side Spec Comparison Matrix -->
     <div id="camera-comparison-container" style="display:none"
       class="mt-6 bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-x-auto custom-scrollbar text-sm">
       <h2 class="text-lg font-bold text-white mb-6">
@@ -250,8 +252,6 @@
     <div id="lens-feature-matrix" class="mt-6"></div>
 
   </section>
-
-  <!-- GEAR SAVINGS SECTION -->
 
   <section id="view-savings" class="w-full px-2 space-y-3" style="display:none">
 
@@ -546,178 +546,6 @@
   </div>
 
 </section>
-
-<script>
-
-    // --- CAMERA DATA STATE ---
-
-    // ============================
-    // USER FINANCES
-    // ============================
-
-    const MONTHLY_SALARY = 210000;
-
-
-    // ============================
-    // GEAR SAVINGS
-    // ============================
-
-   
-    
-    function resetLensStudio() {
-
-      selectedLenses = [];
-
-      document.getElementById(
-        'lens-type-selector'
-      ).value = '';
-
-      document.getElementById(
-        'lens-format-selector'
-      ).value = '';
-
-      document.getElementById(
-        'lens-usecase-selector'
-      ).value = '';
-
-      document.getElementById(
-        'lens-comparison-container'
-      ).innerHTML = '';
-
-      document.getElementById(
-        'lens-analysis'
-      ).innerHTML = '';
-
-      document.getElementById(
-        'lens-feature-matrix'
-      ).innerHTML = '';
-
-      initLensStudio();
-
-    }
-
-   
-    function calculateDisneyScore(cam) {
-
-      let score = 50;
-
-      // Lightweight for long park days
-      if (parseInt(cam.weight) < 550)
-        score += 20;
-
-      // IBIS helps nighttime shots
-      if (cam.ibis !== 'None')
-        score += 15;
-
-      // AI tracking helps moving characters
-      if (cam.processor.includes('AI'))
-        score += 15;
-
-      // Full frame helps low light
-      if (cam.sensor.includes('Full-Frame'))
-        score += 10;
-
-      return Math.min(score, 100);
-    }
-
-    function calculatePhotographyScore(cam) {
-
-      let score = 50;
-
-      score += parseInt(cam.effectiveResolution) / 2;
-
-      if (cam.sensor.includes('Full-Frame'))
-        score += 15;
-
-      if (cam.ibis !== 'None')
-        score += 10;
-
-      return Math.min(
-        Math.round(score),
-        100
-      );
-    }
-
-    function calculateVideoScore(cam) {
-
-      let score = 50;
-
-      if (cam.video.includes('60'))
-        score += 15;
-
-      if (cam.video.includes('120'))
-        score += 30;
-
-      if (cam.processor.includes('AI'))
-        score += 10;
-
-      return Math.min(
-        Math.round(score),
-        100
-      );
-
-    }
-
-    function calculateTravelScore(cam) {
-
-      let score = 60;
-
-      if (parseInt(cam.weight) < 550)
-        score += 20;
-
-      if (cam.ibis !== 'None')
-        score += 10;
-
-      if (cam.sensor.includes('APS-C'))
-        score += 10;
-
-      if (cam.sensor.includes('Full-Frame'))
-        score += 5;
-
-      return Math.min(
-        Math.round(score),
-        100
-      );
-    }
-
-    function calculateOverallScore(cam) {
-
-      return Math.round(
-        (
-          calculatePhotographyScore(cam) +
-          calculateVideoScore(cam) +
-          calculateTravelScore(cam)
-        ) / 3
-      );
-
-    }
-
-    // Initialize on page load
-
-    window.addEventListener('scroll', () => {
-
-      const button =
-        document.getElementById(
-          'scroll-to-top'
-        );
-
-      if (window.scrollY > 400) {
-
-        button.style.display = 'block';
-
-      } else {
-
-        button.style.display = 'none';
-
-      }
-
-    });
-
-    // ============================
-    // LOCAL STORAGE
-    // ============================
-   
-  </script>
 
   <button id="scroll-to-top" onclick="scrollToTop()" style="display:none" class="
     fixed

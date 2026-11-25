@@ -1337,4 +1337,99 @@ function renderCameraAnalysis(activeCams) {
 
     }
 
+    function calculateDisneyScore(cam) {
+
+      let score = 50;
+
+      // Lightweight for long park days
+      if (parseInt(cam.weight) < 550)
+        score += 20;
+
+      // IBIS helps nighttime shots
+      if (cam.ibis !== 'None')
+        score += 15;
+
+      // AI tracking helps moving characters
+      if (cam.processor.includes('AI'))
+        score += 15;
+
+      // Full frame helps low light
+      if (cam.sensor.includes('Full-Frame'))
+        score += 10;
+
+      return Math.min(score, 100);
+    }
+
+    function calculatePhotographyScore(cam) {
+
+      let score = 50;
+
+      score += parseInt(cam.effectiveResolution) / 2;
+
+      if (cam.sensor.includes('Full-Frame'))
+        score += 15;
+
+      if (cam.ibis !== 'None')
+        score += 10;
+
+      return Math.min(
+        Math.round(score),
+        100
+      );
+    }
+
+    function calculateVideoScore(cam) {
+
+      let score = 50;
+
+      if (cam.video.includes('60'))
+        score += 15;
+
+      if (cam.video.includes('120'))
+        score += 30;
+
+      if (cam.processor.includes('AI'))
+        score += 10;
+
+      return Math.min(
+        Math.round(score),
+        100
+      );
+
+    }
+
+    function calculateTravelScore(cam) {
+
+      let score = 60;
+
+      if (parseInt(cam.weight) < 550)
+        score += 20;
+
+      if (cam.ibis !== 'None')
+        score += 10;
+
+      if (cam.sensor.includes('APS-C'))
+        score += 10;
+
+      if (cam.sensor.includes('Full-Frame'))
+        score += 5;
+
+      return Math.min(
+        Math.round(score),
+        100
+      );
+    }
+
+    function calculateOverallScore(cam) {
+
+      return Math.round(
+        (
+          calculatePhotographyScore(cam) +
+          calculateVideoScore(cam) +
+          calculateTravelScore(cam)
+        ) / 3
+      );
+
+    }
+
     

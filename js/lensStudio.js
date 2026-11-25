@@ -871,3 +871,37 @@ h-full
 </span>
 `).join('');
     }
+
+    function resetLensStudio() {
+
+      selectedLenses = [];
+
+      document.getElementById(
+        'lens-type-selector'
+      ).value = '';
+
+      document.getElementById(
+        'lens-format-selector'
+      ).value = '';
+
+      document.getElementById(
+        'lens-usecase-selector'
+      ).value = '';
+
+      document.getElementById(
+        'lens-comparison-container'
+      ).innerHTML = '';
+
+      document.getElementById(
+        'lens-analysis'
+      ).innerHTML = '';
+
+      document.getElementById(
+        'lens-feature-matrix'
+      ).innerHTML = '';
+
+      initLensStudio();
+
+    }
+
+   

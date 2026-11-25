@@ -216,3 +216,30 @@ function showTab(tab) {
 
       }
     );
+
+        // --- CAMERA DATA STATE ---
+
+    // ============================
+    // USER FINANCES
+    // ============================
+
+    const MONTHLY_SALARY = 210000;
+
+     window.addEventListener('scroll', () => {
+
+      const button =
+        document.getElementById(
+          'scroll-to-top'
+        );
+
+      if (window.scrollY > 400) {
+
+        button.style.display = 'block';
+
+      } else {
+
+        button.style.display = 'none';
+
+      }
+
+    });
