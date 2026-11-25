@@ -10,514 +10,400 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-html {
-  font-size: 110%;
-}
+    html {
+      font-size: 110%;
+    }
 
-body {
-  background-color: #0f1115;
-  color: #e2e8f0;
-  font-family: system-ui, -apple-system,
-    BlinkMacSystemFont, 'Segoe UI',
-    Roboto, Oxygen, Ubuntu, Cantarell,
-    sans-serif;
-}
+    body {
+      background-color: #0f1115;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system,
+        BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell,
+        sans-serif;
+    }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #1e293b;
-}
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1e293b;
+    }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #475569;
-  border-radius: 3px;
-}
-</style>
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 3px;
+    }
+  </style>
 </head>
-  
+
 <body class="min-h-screen flex flex-col p-2 md:p-3">
 
-<div class="flex gap-3 mb-6">
+  <div class="flex gap-3 mb-6">
 
-  <button
-    id="camera-tab"
-    onclick="showTab('camera')"
-    class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium"
-  >
-    📷 Camera Studio
-  </button>
+    <button id="camera-tab" onclick="showTab('camera')" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium">
+      📷 Camera Studio
+    </button>
 
-  <button
-    id="lens-tab"
-    onclick="showTab('lens')"
-    class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium"
-  >
-    🔭 Lens Studio
-  </button>
+    <button id="lens-tab" onclick="showTab('lens')" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium">
+      🔭 Lens Studio
+    </button>
 
-  <button
-    id="savings-tab"
-    onclick="showTab('savings')"
-    class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium"
-  >
-    💰 Gear Savings
-  </button>
+    <button id="savings-tab" onclick="showTab('savings')"
+      class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium">
+      💰 Gear Savings
+    </button>
 
-  <button
-    id="planner-tab"
-    onclick="showTab('planner')"
-    class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium"
-  >
-    🧠 Smart Planner
-  </button>
+    <button id="planner-tab" onclick="showTab('planner')"
+      class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium">
+      🧠 Smart Planner
+    </button>
 
-  <button
-  id="iso-tab"
-  onclick="showTab('iso')"
-  class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium"
->
-  🌙 ISO Simulator
-</button>
-
-</div>
-
-<!-- CAMERA STUDIO SECTION -->
-<section id="view-camera"
-         class="w-full px-2 space-y-3">
-<div class="border-b border-slate-800 pb-4">
-
-  <h1 class="text-lg font-bold text-white">
-    Camera Studio
-  </h1>
-
-  <p class="text-slate-400 mt-1">
-    Select camera bodies below to compare full side-by-side technical specifications.
-  </p>
-
-</div>
-
-<!-- Use Case Selector -->
-<div class="mt-2 mb-3 flex gap-4 items-end">
-
-  <div class="w-64">
-    <label
-      for="use-case-selector"
-      class="block text-sm font-semibold text-slate-300 mb-2">
-      What do you shoot?
-    </label>
-
-    <select
-      id="use-case-selector"
-      class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-      <option value="" selected>-----</option>
-      <option value="disney">Tokyo Disney Resort</option>
-      <option value="travel">Travel Photography</option>
-      <option value="video">Video</option>
-      <option value="content">Content Creation</option>
-    </select>
-  </div>
-
-  <div class="w-64">
-    <label
-      for="camera-price-source"
-      class="block text-sm font-semibold text-slate-300 mb-2">
-      Camera Prices
-    </label>
-
-    <select
-      id="camera-price-source"
-      class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-      <option value="">Hide Prices</option>
-      <option value="sony">Sony</option>
-      <option value="amazon">Amazon</option>
-      <option value="used">Used</option>
-    </select>
-  </div>
-
-  <button
-    onclick="resetCameraStudio()"
-    class="h-[42px] px-5 rounded-lg bg-red-600 hover:bg-red-500 text-white">
-    Reset
-  </button>
-
-</div>
-<!-- Camera Catalog Cards -->
-<div
-  id="camera-card-grid"
-  class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
-</div><!-- Side-by-Side Spec Comparison Matrix -->
-<div
-  id="camera-comparison-container"
-  style="display:none"
-  class="mt-6 bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-x-auto custom-scrollbar text-sm"
->
-  <h2 class="text-lg font-bold text-white mb-6">
-    Camera Specification Matrix
-  </h2>
-
-  <div id="sensor-format-analysis" class="mt-6"></div>
-
-  <div id="comparison-based-on" class="mt-6"></div>
-
-  <div id="recommendation-box" class="mt-6"></div>
-
-  <div id="comparison-winners" class="mt-6"></div>
-
-  <h2 class="text-lg font-bold text-slate-300 mb-4 mt-6">
-    ⚡ Quick Comparison
-  </h2>
-
-  <div id="quick-comparison-grid"></div>
-
-  <div id="camera-analysis" class="mt-6"></div>
-
-  <div class="mt-8">
-    <h2 class="text-3xl font-bold text-slate-300 mb-6">
-      📋 Full Technical Specifications
-    </h2>
-
-    <div id="comparison-table-wrapper"></div>
-  </div>
-
-</div> <!-- closes camera-comparison-container -->
-
-</section> 
-
-<section
-  id="view-lens"
-  class="w-full px-2 space-y-2"
-  style="display:none"
->
-
-<div class="border-b border-slate-800 pb-4">
-
-  <h1 class="text-lg font-bold text-white">
-    Lens Studio
-  </h1>
-
-  <p class="text-slate-400 mt-1">
-    Compare Sony E-Mount lenses.
-  </p>
-
-</div>
-
-<div class="mt-2 mb-3 flex flex-wrap items-end gap-6">
-
-  <!-- Lens Type -->
-  <div>
-    <label
-      for="lens-type-selector"
-      class="block text-sm font-semibold text-slate-300 mb-2">
-      Lens Type
-    </label>
-
-    <select
-      id="lens-type-selector"
-      class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-
-      <option value="">All</option>
-      <option value="wide">Wide Angle</option>
-      <option value="standard">Standard Zoom</option>
-      <option value="travelzoom">Travel Zoom</option>
-      <option value="telephoto">Telephoto</option>
-
-    </select>
-  </div>
-
-  <!-- Format -->
-  <div>
-    <label
-      for="lens-format-selector"
-      class="block text-sm font-semibold text-slate-300 mb-2">
-      Format
-    </label>
-
-    <select
-      id="lens-format-selector"
-      class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-
-      <option value="">All</option>
-      <option value="apsc">APS-C</option>
-      <option value="fullframe">Full Frame</option>
-
-    </select>
-  </div>
-
-  <!-- What Do You Shoot -->
-  <div>
-    <label
-      for="lens-usecase-selector"
-      class="block text-sm font-semibold text-slate-300 mb-2">
-      What do you shoot?
-    </label>
-
-    <select
-      id="lens-usecase-selector"
-      class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-
-      <option value="">All</option>
-      <option value="travel">Travel</option>
-      <option value="landscape">Landscape</option>
-      <option value="sports">Sports</option>
-      <option value="wildlife">Wildlife</option>
-      <option value="disney">Disney</option>
-      <option value="family">Family</option>
-
-    </select>
-  </div>
-
-<div>
-  <label
-    for="lens-price-source"
-    class="block text-sm font-semibold text-slate-300 mb-2">
-    Lens Prices
-  </label>
-
-  <select
-    id="lens-price-source"
-    class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
-
-    <option value="">Hide Prices</option>
-    <option value="sony">Sony</option>
-    <option value="amazon">Amazon</option>
-    <option value="used">Used</option>
-
-  </select>
-</div>
-
-<button
-  onclick="resetLensStudio()"
-  class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white"
->
-  Reset
-</button>
-
-</div>
-
-<div
-  id="lens-card-grid"
-  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
-></div>
-
-<div
-  id="lens-comparison-container"
-  class="mt-6"
-></div>
-
-<div id="lens-analysis" class="mt-6"></div>
-
-<div id="lens-feature-matrix" class="mt-6"></div>
-
-</section>
-
-<!-- GEAR SAVINGS SECTION -->
-
-<section
-  id="view-savings"
-  class="w-full px-2 space-y-3"
-  style="display:none"
->
-
-  <div class="border-b border-slate-800 pb-4">
-
-    <h1 class="text-lg font-bold text-white">
-      Gear Savings
-    </h1>
-
-    <p class="text-slate-400 mt-1">
-      Track progress towards your next Sony gear purchase.
-    </p>
+    <button id="iso-tab" onclick="showTab('iso')" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-medium">
+      🌙 ISO Simulator
+    </button>
 
   </div>
 
-<div class="mb-6">
+  <!-- CAMERA STUDIO SECTION -->
+  <section id="view-camera" class="w-full px-2 space-y-3">
+    <div class="border-b border-slate-800 pb-4">
 
-  <h2 class="text-xl font-bold text-white mb-4">
-    📦 Available Gear
-  </h2>
+      <h1 class="text-lg font-bold text-white">
+        Camera Studio
+      </h1>
 
-  <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+      <p class="text-slate-400 mt-1">
+        Select camera bodies below to compare full side-by-side technical specifications.
+      </p>
 
-    <div class="grid md:grid-cols-3 gap-4">
+    </div>
 
-<div>
-  <label class="block mb-2">
-    Camera
-  </label>
+    <!-- Use Case Selector -->
+    <div class="mt-2 mb-3 flex gap-4 items-end">
 
-  <select
-    id="camera-selector"
-    onchange="selectGearFromDropdown()"
-    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-  >
-  </select>
-</div>          
-      <div>
-        <label class="block mb-2">
-  Lens
-</label>
-
-<select
-  id="lens-selector"
-  onchange="selectGearFromDropdown()"
-  class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
->
-</select>
-      </div>
-
-      <div>
-        <label class="block mb-2">
-          Store
+      <div class="w-64">
+        <label for="use-case-selector" class="block text-sm font-semibold text-slate-300 mb-2">
+          What do you shoot?
         </label>
 
-        <select
-          id="price-source"
-          onchange="selectGearFromDropdown()"
-          class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-        >
+        <select id="use-case-selector" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <option value="" selected>-----</option>
+          <option value="disney">Tokyo Disney Resort</option>
+          <option value="travel">Travel Photography</option>
+          <option value="video">Video</option>
+          <option value="content">Content Creation</option>
+        </select>
+      </div>
+
+      <div class="w-64">
+        <label for="camera-price-source" class="block text-sm font-semibold text-slate-300 mb-2">
+          Camera Prices
+        </label>
+
+        <select id="camera-price-source" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+          <option value="">Hide Prices</option>
           <option value="sony">Sony</option>
           <option value="amazon">Amazon</option>
           <option value="used">Used</option>
         </select>
+      </div>
+
+      <button onclick="resetCameraStudio()" class="h-[42px] px-5 rounded-lg bg-red-600 hover:bg-red-500 text-white">
+        Reset
+      </button>
+
+    </div>
+    <!-- Camera Catalog Cards -->
+    <div id="camera-card-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+    </div><!-- Side-by-Side Spec Comparison Matrix -->
+    <div id="camera-comparison-container" style="display:none"
+      class="mt-6 bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-x-auto custom-scrollbar text-sm">
+      <h2 class="text-lg font-bold text-white mb-6">
+        Camera Specification Matrix
+      </h2>
+
+      <div id="sensor-format-analysis" class="mt-6"></div>
+
+      <div id="comparison-based-on" class="mt-6"></div>
+
+      <div id="recommendation-box" class="mt-6"></div>
+
+      <div id="comparison-winners" class="mt-6"></div>
+
+      <h2 class="text-lg font-bold text-slate-300 mb-4 mt-6">
+        ⚡ Quick Comparison
+      </h2>
+
+      <div id="quick-comparison-grid"></div>
+
+      <div id="camera-analysis" class="mt-6"></div>
+
+      <div class="mt-8">
+        <h2 class="text-3xl font-bold text-slate-300 mb-6">
+          📋 Full Technical Specifications
+        </h2>
+
+        <div id="comparison-table-wrapper"></div>
+      </div>
+
+    </div> <!-- closes camera-comparison-container -->
+
+  </section>
+
+  <section id="view-lens" class="w-full px-2 space-y-2" style="display:none">
+
+    <div class="border-b border-slate-800 pb-4">
+
+      <h1 class="text-lg font-bold text-white">
+        Lens Studio
+      </h1>
+
+      <p class="text-slate-400 mt-1">
+        Compare Sony E-Mount lenses.
+      </p>
+
     </div>
 
-  </div>
+    <div class="mt-2 mb-3 flex flex-wrap items-end gap-6">
 
-  <div
-    id="gear-preview"
-    class="mt-6"
-  ></div>
+      <!-- Lens Type -->
+      <div>
+        <label for="lens-type-selector" class="block text-sm font-semibold text-slate-300 mb-2">
+          Lens Type
+        </label>
 
-</div>
+        <select id="lens-type-selector" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
 
-</div>
+          <option value="">All</option>
+          <option value="wide">Wide Angle</option>
+          <option value="standard">Standard Zoom</option>
+          <option value="travelzoom">Travel Zoom</option>
+          <option value="telephoto">Telephoto</option>
+
+        </select>
+      </div>
+
+      <!-- Format -->
+      <div>
+        <label for="lens-format-selector" class="block text-sm font-semibold text-slate-300 mb-2">
+          Format
+        </label>
+
+        <select id="lens-format-selector" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+
+          <option value="">All</option>
+          <option value="apsc">APS-C</option>
+          <option value="fullframe">Full Frame</option>
+
+        </select>
+      </div>
+
+      <!-- What Do You Shoot -->
+      <div>
+        <label for="lens-usecase-selector" class="block text-sm font-semibold text-slate-300 mb-2">
+          What do you shoot?
+        </label>
+
+        <select id="lens-usecase-selector" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+
+          <option value="">All</option>
+          <option value="travel">Travel</option>
+          <option value="landscape">Landscape</option>
+          <option value="sports">Sports</option>
+          <option value="wildlife">Wildlife</option>
+          <option value="disney">Disney</option>
+          <option value="family">Family</option>
+
+        </select>
+      </div>
+
+      <div>
+        <label for="lens-price-source" class="block text-sm font-semibold text-slate-300 mb-2">
+          Lens Prices
+        </label>
+
+        <select id="lens-price-source" class="bg-slate-900 border border-slate-700 rounded-lg p-2 text-white">
+
+          <option value="">Hide Prices</option>
+          <option value="sony">Sony</option>
+          <option value="amazon">Amazon</option>
+          <option value="used">Used</option>
+
+        </select>
+      </div>
+
+      <button onclick="resetLensStudio()" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white">
+        Reset
+      </button>
+
+    </div>
+
+    <div id="lens-card-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+
+    <div id="lens-comparison-container" class="mt-6"></div>
+
+    <div id="lens-analysis" class="mt-6"></div>
+
+    <div id="lens-feature-matrix" class="mt-6"></div>
+
+  </section>
+
+  <!-- GEAR SAVINGS SECTION -->
+
+  <section id="view-savings" class="w-full px-2 space-y-3" style="display:none">
+
+    <div class="border-b border-slate-800 pb-4">
+
+      <h1 class="text-lg font-bold text-white">
+        Gear Savings
+      </h1>
+
+      <p class="text-slate-400 mt-1">
+        Track progress towards your next Sony gear purchase.
+      </p>
+
+    </div>
+
+    <div class="mb-6">
+
+      <h2 class="text-xl font-bold text-white mb-4">
+        📦 Available Gear
+      </h2>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+
+        <div class="grid md:grid-cols-3 gap-4">
+
+          <div>
+            <label class="block mb-2">
+              Camera
+            </label>
+
+            <select id="camera-selector" onchange="selectGearFromDropdown()"
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+            </select>
+          </div>
+          <div>
+            <label class="block mb-2">
+              Lens
+            </label>
+
+            <select id="lens-selector" onchange="selectGearFromDropdown()"
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+            </select>
+          </div>
+
+          <div>
+            <label class="block mb-2">
+              Store
+            </label>
+
+            <select id="price-source" onchange="selectGearFromDropdown()"
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+              <option value="sony">Sony</option>
+              <option value="amazon">Amazon</option>
+              <option value="used">Used</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div id="gear-preview" class="mt-6"></div>
+
+      </div>
+
+    </div>
 
 
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
 
-  <div class="grid md:grid-cols-4 gap-4">
+      <div class="grid md:grid-cols-4 gap-4">
 
-  <div>
-  <label class="block mb-2">
-    Gear Goal (¥)
-  </label>
+        <div>
+          <label class="block mb-2">
+            Gear Goal (¥)
+          </label>
 
-  <input
-    id="gear-goal"
-    type="number"
-    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-  >
-</div>
+          <input id="gear-goal" type="number" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+        </div>
 
-<div>
-  <label class="block mb-2">
-    Current Savings (¥)
-  </label>
+        <div>
+          <label class="block mb-2">
+            Current Savings (¥)
+          </label>
 
-<input
-  id="current-savings"
-  type="number"
-  class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
->
-</div>
+          <input id="current-savings" type="number" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+        </div>
 
-<div>
-  <label class="block mb-2">
-    Monthly Spending (¥)
-  </label>
+        <div>
+          <label class="block mb-2">
+            Monthly Spending (¥)
+          </label>
 
-  <input
-    id="monthly-spending"
-    type="number"
-    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-  >
-</div>
+          <input id="monthly-spending" type="number" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+        </div>
 
-<div>
-  <label class="block mb-2">
-    Monthly Savings (¥)
-  </label>
+        <div>
+          <label class="block mb-2">
+            Monthly Savings (¥)
+          </label>
 
-  <input
-    id="monthly-savings"
-    type="number"
-    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-  >
-</div>
+          <input id="monthly-savings" type="number" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+        </div>
 
-  </div>
+      </div>
 
-</div>
+    </div>
 
-<div
-  id="savings-results"
-  class="mt-6"
-></div>
-</section>
+    <div id="savings-results" class="mt-6"></div>
+  </section>
+
+  <section id="view-planner" class="w-full px-2 space-y-3" style="display:none">
+
+    <div class="border-b border-slate-800 pb-4">
+
+      <h1 class="text-lg font-bold text-white">
+        🧠 Smart Planner
+      </h1>
+
+      <p class="text-slate-400 mt-1">
+        Upload your bank CSV and analyze spending habits.
+      </p>
+
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+
+      <div class="mb-4">
+
+        <label class="block mb-2 text-slate-300">
+          AI Model
+        </label>
+
+        <select id="ai-provider" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2">
+          <option value="gemini">
+            Gemini
+          </option>
+
+          <option value="claude">
+            Claude
+          </option>
+        </select>
+
+      </div>
+
+      <input type="file" id="csv-upload" accept=".csv"
+        class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3">
+
+    </div>
+    <div id="planner-results" class="mt-6"></div>
+
+  </section>
 
   <section
-  id="view-planner"
-  class="w-full px-2 space-y-3"
-  style="display:none"
->
-
-  <div class="border-b border-slate-800 pb-4">
-
-    <h1 class="text-lg font-bold text-white">
-      🧠 Smart Planner
-    </h1>
-
-    <p class="text-slate-400 mt-1">
-      Upload your bank CSV and analyze spending habits.
-    </p>
-
-  </div>
-
-  <div
-  class="bg-slate-900 border border-slate-800 rounded-xl p-5"
->
-
-  <div class="mb-4">
-
-    <label class="block mb-2 text-slate-300">
-      AI Model
-    </label>
-
-    <select
-      id="ai-provider"
-      class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2"
-    >
-      <option value="gemini">
-        Gemini
-      </option>
-
-      <option value="claude">
-        Claude
-      </option>
-    </select>
-
-  </div>
-
-  <input
-    type="file"
-    id="csv-upload"
-    accept=".csv"
-    class="w-full bg-slate-950 border border-slate-700 rounded-lg p-3"
-  >
-
-</div>
-<div
-  id="planner-results"
-  class="mt-6"
-></div>
-
-</section>
-
-<section
   id="view-iso"
   class="w-full px-2 space-y-4"
   style="display:none"
@@ -530,21 +416,66 @@ body {
     </h1>
 
     <p class="text-slate-400 mt-1">
-      Explore how increasing ISO affects image quality and noise.
+      Compare how sensor size, aperture, and ISO affect image noise.
     </p>
 
   </div>
 
-  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+  <div
+    class="bg-slate-900 border border-slate-800 rounded-xl p-6"
+  >
 
-    <label class="block mb-3 text-slate-300">
+    <!-- Camera & Lens Selection -->
+
+    <div class="grid md:grid-cols-2 gap-4 mb-6">
+
+      <div>
+
+        <label
+          class="block mb-2 text-slate-300 font-medium"
+        >
+          Camera
+        </label>
+
+        <select
+          id="iso-camera-selector"
+          class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white"
+        ></select>
+
+      </div>
+
+      <div>
+
+        <label
+          class="block mb-2 text-slate-300 font-medium"
+        >
+          Lens
+        </label>
+
+        <select
+          id="iso-lens-selector"
+          class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white"
+        ></select>
+
+      </div>
+
+    </div>
+
+    <!-- ISO Display -->
+
+    <label
+      class="block mb-3 text-slate-300"
+    >
+
       ISO:
+
       <span
         id="isoValue"
         class="font-bold text-cyan-400"
       >
         100
       </span>
+
     </label>
 
     <input
@@ -556,6 +487,54 @@ body {
       value="100"
       class="w-full mb-6"
     >
+
+    <!-- Calculated Results -->
+
+    <div
+      class="grid md:grid-cols-2 gap-4 mb-6"
+    >
+
+      <div
+        class="bg-slate-950 border border-slate-700 rounded-lg p-4"
+      >
+
+        <div
+          class="text-sm text-slate-400"
+        >
+          Effective ISO
+        </div>
+
+        <div
+          id="effective-iso"
+          class="text-2xl font-bold text-green-400 mt-1"
+        >
+          100
+        </div>
+
+      </div>
+
+      <div
+        class="bg-slate-950 border border-slate-700 rounded-lg p-4"
+      >
+
+        <div
+          class="text-sm text-slate-400"
+        >
+          Estimated Noise
+        </div>
+
+        <div
+          id="noise-rating"
+          class="text-2xl font-bold text-yellow-400 mt-1"
+        >
+          Very Low
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Simulator Image -->
 
     <canvas
       id="isoCanvas"
@@ -569,668 +548,38 @@ body {
 </section>
 
 <script>
+
     // --- CAMERA DATA STATE ---
-const camerasData = [
-{
-  id: 'a6400',
-  name: 'Sony a6400',
-  image: 'images/a6400.avif',
 
-  prices: {
-    sony: 139800,
-    amazon: 129800,
-    used: 95000
-  },
+    // ============================
+    // USER FINANCES
+    // ============================
 
-  sensor: '24.2 MP APS-C Exmor CMOS',  effectiveResolution: '24.2 MP',
-  sensorSize: '23.5 x 15.6 mm',
+    const MONTHLY_SALARY = 210000;
 
-  processor: 'BIONZ X',
-  lensMount: 'Sony E',
 
-  ibis: 'None',
-  af: '425 Phase-Detect Points',
-  burst: '11 fps',
+    // ============================
+    // GEAR SAVINGS
+    // ============================
 
-  iso: '100-32000',
-  shutter: '1/4000 - 30 sec',
-  buffer: '116 JPEG',
+    function initGearSavings() {
+      updateGearList();
+    }
 
-  video: '4K 30p 8-bit',
-  videoRaw: 'No',
-  recordingLimit: 'Approx. 30 min',
+    function selectGear(name, price) {
 
-  evf: '2.36M-dot OLED',
-  lcd: '3.0-inch Tilting LCD',
-  lcdResolution: '921k dots',
+      document.getElementById(
+        'gear-goal'
+      ).value = price;
 
-  cardSlots: '1 SD UHS-I',
-  usb: 'Micro USB',
-  hdmi: 'Micro HDMI',
-  headphone: 'No',
-  microphone: 'Yes',
+    }
 
-  wifi: 'Yes',
-  bluetooth: 'Yes',
+    function updateGearList() {
 
-  battery: 'NP-FW50',
-  batteryLife: '410 shots',
-
-  dimensions: '120 x 67 x 60 mm',
-  weight: '403g',
-weatherSealed: 'No'
-},
-     {
-  id: 'a6700',
-  name: 'Sony a6700',
-
-image: 'images/a6700.webp',
-
-prices: {
-sony: 229900,
-amazon: 209800,
-used: 175000
-},
-
-  sensor: '26.0 MP APS-C BSI CMOS',
-  effectiveResolution: '26 MP',
-  sensorSize: '23.5 x 15.6 mm',
-
-  processor: 'BIONZ XR + AI Unit',
-  lensMount: 'Sony E',
-
-  ibis: '5-Axis (5 stops)',
-  af: '759 Phase-Detect Points',
-  burst: '11 fps',
-
-  iso: '100-32000',
-  shutter: '1/8000 - 30 sec',
-  buffer: '1000+ JPEG',
-
-  video: '4K 120p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW Output',
-  recordingLimit: 'Unlimited',
-
-  evf: '2.36M-dot OLED',
-  lcd: '3.0-inch Vari-angle',
-  lcdResolution: '1.03M dots',
-
-  cardSlots: '1 SD UHS-II',
-  usb: 'USB-C 3.2',
-  hdmi: 'Micro HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Yes',
-  bluetooth: 'Yes',
-
-  battery: 'NP-FZ100',
-  batteryLife: '570 shots',
-
-  dimensions: '122 x 69 x 75 mm',
-  weight: '493g',
-  weatherSealed: 'Yes'
-},
-     {
-  id: 'fx30',
-  name: 'Sony FX30',
-
-  image: 'images/fx30.avif',
-
-  prices: {
-    sony: 264900,
-    amazon: 249800,
-    used: 215000
-  },
-
-  sensor: '26.0 MP APS-C BSI CMOS',
-  effectiveResolution: '26 MP',
-  sensorSize: '23.5 x 15.6 mm',
-
-  processor: 'BIONZ XR',
-  lensMount: 'Sony E',
-
-  ibis: '5-Axis Active Stabilization',
-  af: '495 Phase-Detect Points',
-  burst: '10 fps',
-
-  iso: '100-32000 Dual Base',
-  shutter: '1/8000 - 30 sec',
-  buffer: 'Large',
-
-  video: '4K 120p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW',
-  recordingLimit: 'Unlimited',
-
-  evf: 'None',
-  lcd: '3.0-inch Vari-angle',
-  lcdResolution: '2.36M dots',
-
-  cardSlots: 'Dual CFexpress A / SD',
-  usb: 'USB-C 3.2',
-  hdmi: 'Full Size HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Yes',
-  bluetooth: 'Yes',
-
-  battery: 'NP-FZ100',
-  batteryLife: 'Approx. 95 min video',
-
-  dimensions: '130 x 78 x 85 mm',
-  weight: '646g',
-  weatherSealed: 'Yes'
-},
-      {
-  id: 'a7c2',
-  name: 'Sony a7C II',
-
-image: 'images/a7c2.avif',
-
-prices: {
-sony: 328900,
-amazon: 299800,
-used: 259800
-},
-
-  sensor: '33.0 MP Full-Frame BSI',
-  effectiveResolution: '33 MP',
-  sensorSize: '35.9 × 23.9 mm',
-  processor: 'BIONZ XR + AI Unit',
-
-  lensMount: 'Sony E',
-  ibis: '5-Axis (7.0 stops)',
-  af: '759 Phase-Detect Points',
-  burst: '10 fps',
-
-  iso: '100-51200',
-  shutter: '1/8000 - 30 sec',
-  buffer: '1000+ JPEG',
-
-  video: '4K 60p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW output',
-  recordingLimit: 'No limit',
-
-  evf: '2.36m-dot OLED',
-  lcd: '3.0-inch Vari-angle LCD',
-  lcdResolution: '1.03m dots',
-
-  cardSlots: '1 SD UHS-II',
-  usb: 'USB-C 3.2',
-  hdmi: 'Micro HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Wi-Fi 5',
-  bluetooth: 'Bluetooth 4.2',
-
-  battery: 'NP-FZ100',
-  batteryLife: '540 shots',
-
-  dimensions: '124 x 71 x 63 mm',
-  weight: '514g',
-  weatherSealed: 'Yes'
-},
-     {
-  id: 'a7m4',
-  name: 'Sony a7 IV',
-
-image: 'images/a7m4.avif',
-
-prices: {
-  sony: 349900,
-  amazon: 319800,
-  used: 279800
-},
-
-  sensor: '33 MP Full-Frame BSI CMOS',
-  effectiveResolution: '33 MP',
-  sensorSize: '35.9 x 23.9 mm',
-
-  processor: 'BIONZ XR',
-  lensMount: 'Sony E',
-
-  ibis: '5-Axis (5.5 stops)',
-  af: '759 Phase-Detect Points',
-  burst: '10 fps',
-
-  iso: '100-51200',
-  shutter: '1/8000 - 30 sec',
-  buffer: '800+ JPEG',
-
-  video: '4K 60p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW',
-  recordingLimit: 'Unlimited',
-
-  evf: '3.68M-dot OLED',
-  lcd: '3.0-inch Vari-angle',
-  lcdResolution: '1.03M dots',
-
-  cardSlots: 'Dual SD / CFexpress A',
-  usb: 'USB-C 3.2',
-  hdmi: 'Full Size HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Yes',
-  bluetooth: 'Yes',
-
-  battery: 'NP-FZ100',
-  batteryLife: '580 shots',
-
-  dimensions: '131 x 96 x 80 mm',
-  weight: '658g',
-  weatherSealed: 'Yes'
-},
-
-{
-  id: 'a7v',
-  name: 'Sony a7 V',
-
-  image: 'images/A7v.webp',
-
-  prices: {
-    sony: 429900,
-    amazon: 399800,
-    used: 0
-  },
-
-  sensor: '44 MP Full-Frame BSI CMOS',
-  effectiveResolution: '44 MP',
-  sensorSize: '35.9 x 23.9 mm',
-
-  processor: 'BIONZ XR + AI Unit',
-  lensMount: 'Sony E',
-
-  ibis: '5-Axis (8 stops)',
-  af: '759 Phase-Detect Points',
-  burst: '10 fps',
-
-  iso: '100-51200',
-  shutter: '1/8000 - 30 sec',
-  buffer: '1000+ JPEG',
-
-  video: '4K 60p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW',
-  recordingLimit: 'Unlimited',
-
-  evf: '3.68M-dot OLED',
-  lcd: '3.2-inch Vari-angle',
-  lcdResolution: '2.1M dots',
-
-  cardSlots: 'Dual SD / CFexpress A',
-  usb: 'USB-C 3.2',
-  hdmi: 'Full Size HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Wi‑Fi 5',
-  bluetooth: 'Bluetooth 5.0',
-
-  battery: 'NP-FZ100',
-  batteryLife: '610 shots',
-
-  dimensions: '131 x 97 x 82 mm',
-  weight: '743g',
-  weatherSealed: 'Yes'
-},
-
-     {
-  id: 'a7cr',
-  name: 'Sony a7CR',
-
-image: 'images/a7cr.avif',
-
-prices: {
-  sony: 449900,
-  amazon: 419800,
-  used: 369800
-},
-
-  sensor: '61 MP Full-Frame BSI CMOS',
-  effectiveResolution: '61 MP',
-  sensorSize: '35.9 x 23.9 mm',
-
-  processor: 'BIONZ XR + AI Unit',
-  lensMount: 'Sony E',
-
-  ibis: '5-Axis (7 stops)',
-  af: '693 Phase-Detect Points',
-  burst: '8 fps',
-
-  iso: '100-32000',
-  shutter: '1/8000 - 30 sec',
-  buffer: '1000+ JPEG',
-
-  video: '4K 60p 10-bit 4:2:2',
-  videoRaw: '16-bit RAW',
-  recordingLimit: 'Unlimited',
-
-  evf: '2.36M-dot OLED',
-  lcd: '3.0-inch Vari-angle',
-  lcdResolution: '1.03M dots',
-
-  cardSlots: '1 SD UHS-II',
-  usb: 'USB-C 3.2',
-  hdmi: 'Micro HDMI',
-  headphone: 'Yes',
-  microphone: 'Yes',
-
-  wifi: 'Yes',
-  bluetooth: 'Yes',
-
-  battery: 'NP-FZ100',
-  batteryLife: '530 shots',
-
-  dimensions: '124 x 71 x 63 mm',
-  weight: '515g',
-  weatherSealed: 'Yes'
-}
-
-    ];
-
-const lensesData = [
-
- {
-  id: '16-35gm2',
-  name: 'Sony FE 16-35mm F2.8 GM II',
-  model: 'SEL1635GM2',
-  image: 'images/16-35gm2.jpg',
-
-prices: {
-  sony: 339900,
-  amazon: 319800,
-  used: 279800
-},
-
-  type: 'Wide Angle Zoom',
-  format: 'Full Frame',
-
-  focalLength: '16-35mm',
-  aperture: 'F2.8',
-  weight: '547g',
-weatherSealed: 'Yes',
-
-features: [
-  'GM',
-  'Super ED',
-  'ED',
-  'ED Asph.',
-  'Aspherical',
-  'XA',
-  'Nano AR II',
-  'F Coating',
-  'IF',
-  'LR MF',
-  'Floating F',
-  'XD LM',
-  'FHB',
-  'I/A Ring',
-  'I/A Click',
-  'I/A Lock',
-  'DMR',
-  'Circular'
-]
-},
-
-{
-  id: '24-70gm2',
-  name: 'Sony FE 24-70mm F2.8 GM II',
-  model: 'SEL2470GM2',
-  image: 'images/24-70gm2.jpg',
-
-prices: {
-  sony: 329900,
-  amazon: 309800,
-  used: 265000
-},
-
-  type: 'Standard Zoom',
-  format: 'Full Frame',
-
-  focalLength: '24-70mm',
-  aperture: 'F2.8',
-
-  weight: '695g',
-
-  weatherSealed: 'Yes',
-
-features: [
-  'GM',
-
-  'Super ED',
-  'ED',
-  'XA',
-  'Aspherical',
-
-  'Nano AR II',
-  'F Coating',
-
-  'IF',
-  'LR MF',
-  'Floating F',
-
-  'XD LM',
-
-  'FHB',
-
-  'I/A Ring',
-  'I/A Click',
-  'I/A Lock',
-
-  'Zoom smth.',
-
-  'DMR',
-  'Circular'
-]
-
-},
-  {
-    id: '20-70g',
-    name: 'Sony FE 20-70mm F4 G',
-    model: 'SEL2070G', 
-    image: 'images/20-70g.avif',
-
-prices: {
-sony: 189800,
-amazon: 179800,
-used: 145000
-},
-
-    type: 'Travel Zoom',
-    format: 'Full Frame',
-
-    focalLength: '20-70mm',
-    aperture: 'F4',
-
-   weight: '488g',
-
-weatherSealed: 'Yes',
-
-features: [
-  'G',
-
-  'AA',
-  'ED Asph.',
-  'Aspherical',
-  'ED',
-
-  'F Coating',
-
-  'IF',
-  'LR MF',
-
-  'XD LM',
-
-  'FHB',
-
-  'I/A Ring',
-  'I/A Click',
-  'I/A Lock',
-
-  'DMR',
-  'Circular'
-]
-
-},
-
- {
-  id: '70-200gm2',
-  name: 'Sony FE 70-200mm F2.8 GM OSS II',
-  model: 'SEL70200GM2',
-  image: 'images/70-200gm2.avif',
-
-prices: {
-  sony: 399900,
-  amazon: 379800,
-  used: 339800
-},
-
-  type: 'Telephoto Zoom',
-  format: 'Full Frame',
-
-  focalLength: '70-200mm',
-  aperture: 'F2.8',
-
-  weight: '1045g',
-
-  weatherSealed: 'Yes',
-
-features: [
-  'GM',
-
-  'XA',
-  'ED Asph.',
-  'Aspherical',
-  'Super ED',
-  'ED',
-
-  'Nano AR II',
-  'F Coating',
-
-  'IF',
-  'IZ',
-  'LR MF',
-  'Floating F',
-
-  'XD LM',
-
-  'FHB',
-  'FRL',
-
-  'I/A Ring',
-  'I/A Click',
-  'I/A Lock',
-
-  'OSS',
-  'OSS Mode',
-
-  'DMR',
-  'Circular'
-]
-},
-
-  {
-    id: '70-350g',
-    name: 'Sony E 70-350mm G OSS',
-    model: 'SEL70350G',
-    image: 'images/70-350g.avif',
-
-prices: {
-  sony: 134900,
-  amazon: 119800,
-  used: 95000
-},
-
-    type: 'APS-C Telephoto',
-    format: 'APS-C',
-
-    focalLength: '70-350mm',
-    aperture: 'F4.5-6.3',
-
-    weight: '625g',
-
-    weatherSealed: 'Yes',
-
-features: [
-'G',
-'ED',
-'Aspherical',
-'IF',
-'XD LM',
-'FHB',
-'OSS',
-'DMR',
-'Circular'
-]
-  },
-
-  {
-    id: '18-135',
-    name: 'Sony E 18-135mm OSS',
-    image: 'images/18-135.avif',
-    model: 'SEL18135',
-
-prices: {
-  sony: 79900,
-  amazon: 69900,
-  used: 55000
-},
-
-    type: 'Travel Zoom',
-    format: 'APS-C',
-
-    focalLength: '18-135mm',
-    aperture: 'F3.5-5.6',
-
-    weight: '325g',
-
-    weatherSealed: 'No',
-
-features: [
-  'ED',
-  'Aspherical',
-
-  'IF',
-
-  'LM',
-
-  'OSS',
-
-  'Circular'
-]  }
-
-];
-
-// ============================
-// USER FINANCES
-// ============================
-
-const MONTHLY_SALARY = 210000;
-
-
-// ============================
-// GEAR SAVINGS
-// ============================
-
-function initGearSavings() {
-  updateGearList();
-}
-
-function selectGear(name, price) {
-
-  document.getElementById(
-    'gear-goal'
-  ).value = price;
-
-}
-
-function updateGearList() {
-
-document.getElementById(
-  'camera-selector'
-).innerHTML = `
+      document.getElementById(
+        'camera-selector'
+      ).innerHTML = `
+      
   <option value="">
     -- No Camera --
   </option>
@@ -1240,9 +589,9 @@ document.getElementById(
   </option>
 `).join('');
 
-document.getElementById(
-  'lens-selector'
-).innerHTML = `
+      document.getElementById(
+        'lens-selector'
+      ).innerHTML = `
   <option value="">
     -- No Lens --
   </option>
@@ -1252,49 +601,49 @@ document.getElementById(
   </option>
 `).join('');
 
-  selectGearFromDropdown();
-}
+      selectGearFromDropdown();
+    }
 
-function selectGearFromDropdown() {
+    function selectGearFromDropdown() {
 
-  const source =
-    document.getElementById("price-source").value;
+      const source =
+        document.getElementById("price-source").value;
 
-  const cameraId =
-    document.getElementById("camera-selector").value;
+      const cameraId =
+        document.getElementById("camera-selector").value;
 
-  const lensId =
-    document.getElementById("lens-selector").value;
+      const lensId =
+        document.getElementById("lens-selector").value;
 
-  const camera =
-    camerasData.find(c => c.id === cameraId);
+      const camera =
+        camerasData.find(c => c.id === cameraId);
 
-  const lens =
-    lensesData.find(l => l.id === lensId);
+      const lens =
+        lensesData.find(l => l.id === lensId);
 
-  if (!camera && !lens) {
+      if (!camera && !lens) {
 
-    document.getElementById("gear-preview").innerHTML = `
+        document.getElementById("gear-preview").innerHTML = `
       <div class="text-center text-slate-400">
         Select a camera and/or lens
       </div>
     `;
 
-    document.getElementById("gear-goal").value = 0;
+        document.getElementById("gear-goal").value = 0;
 
-    return;
-  }
+        return;
+      }
 
-  const cameraPrice =
-    camera ? camera.prices[source] : 0;
+      const cameraPrice =
+        camera ? camera.prices[source] : 0;
 
-  const lensPrice =
-    lens ? lens.prices[source] : 0;
+      const lensPrice =
+        lens ? lens.prices[source] : 0;
 
-  const totalPrice =
-    cameraPrice + lensPrice;
+      const totalPrice =
+        cameraPrice + lensPrice;
 
-document.getElementById("gear-preview").innerHTML = `
+      document.getElementById("gear-preview").innerHTML = `
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
@@ -1360,195 +709,196 @@ ${lens.name}
 
 </div>
 
-`;}
+`;
+    }
 
-let spendingChart = null;
+    let spendingChart = null;
 
-let selectedStudioCameras = [];
+    let selectedStudioCameras = [];
 
-let selectedLenses = [];
+    let selectedLenses = [];
 
-const MAX_CAMERAS = 4;
-const MAX_LENSES = 4;
+    const MAX_CAMERAS = 4;
+    const MAX_LENSES = 4;
 
-function toggleLens(id) {
+    function toggleLens(id) {
 
-const previousCount =
-  selectedLenses.length;
-  if (
-    !selectedLenses.includes(id) &&
-    selectedLenses.length >= MAX_LENSES
-  ) {
-    alert(
-      'You can compare up to 4 lenses at once.'
-    );
-    return;
-  }
+      const previousCount =
+        selectedLenses.length;
+      if (
+        !selectedLenses.includes(id) &&
+        selectedLenses.length >= MAX_LENSES
+      ) {
+        alert(
+          'You can compare up to 4 lenses at once.'
+        );
+        return;
+      }
 
-  if (selectedLenses.includes(id)) {
+      if (selectedLenses.includes(id)) {
 
-    selectedLenses =
-      selectedLenses.filter(
-        lensId => lensId !== id
-      );
+        selectedLenses =
+          selectedLenses.filter(
+            lensId => lensId !== id
+          );
 
-  } else {
+      } else {
 
-    selectedLenses.push(id);
+        selectedLenses.push(id);
 
-  }
+      }
 
-initLensStudio();
+      initLensStudio();
 
-renderLensComparison();
+      renderLensComparison();
 
-if (
-  selectedLenses.length >= 2 &&
-  selectedLenses.length > previousCount
-) {
+      if (
+        selectedLenses.length >= 2 &&
+        selectedLenses.length > previousCount
+      ) {
 
-  setTimeout(() => {
+        setTimeout(() => {
 
-    document
-      .getElementById(
+          document
+            .getElementById(
+              'lens-comparison-container'
+            )
+            .scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+        }, 100);
+
+      }
+
+    }
+
+    function toggleStudioCamera(id) {
+
+      const previousCount =
+        selectedStudioCameras.length;
+
+      if (
+        !selectedStudioCameras.includes(id) &&
+        selectedStudioCameras.length >= MAX_CAMERAS
+      ) {
+        alert(
+          'You can compare up to 4 cameras at once.'
+        );
+        return;
+      }
+
+      if (selectedStudioCameras.includes(id)) {
+
+        selectedStudioCameras =
+          selectedStudioCameras.filter(
+            camId => camId !== id
+          );
+
+      } else {
+
+        selectedStudioCameras.push(id);
+
+      }
+
+      initCameraStudio();
+
+      const useCase =
+        document.getElementById(
+          'use-case-selector'
+        ).value;
+
+      if (
+        useCase !== '' &&
+        selectedStudioCameras.length >= 2 &&
+        selectedStudioCameras.length > previousCount
+      ) {
+
+        setTimeout(() => {
+
+          document
+            .getElementById(
+              'camera-comparison-container'
+            )
+            .scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+        }, 100);
+
+      }
+
+    }
+
+    // --- CAMERA STUDIO FUNCTIONS ---
+    function resetCameraStudio() {
+
+      selectedStudioCameras = [];
+
+      document.getElementById(
+        'use-case-selector'
+      ).value = '';
+
+      initCameraStudio();
+
+    }
+
+    function resetLensStudio() {
+
+      selectedLenses = [];
+
+      document.getElementById(
+        'lens-type-selector'
+      ).value = '';
+
+      document.getElementById(
+        'lens-format-selector'
+      ).value = '';
+
+      document.getElementById(
+        'lens-usecase-selector'
+      ).value = '';
+
+      document.getElementById(
         'lens-comparison-container'
-      )
-      .scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
+      ).innerHTML = '';
+
+      document.getElementById(
+        'lens-analysis'
+      ).innerHTML = '';
+
+      document.getElementById(
+        'lens-feature-matrix'
+      ).innerHTML = '';
+
+      initLensStudio();
+
+    }
+
+    function scrollToTop() {
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
 
-  }, 100);
+    }
 
-}
+    function initCameraStudio() {
 
-}
+      const grid =
+        document.getElementById(
+          'camera-card-grid'
+        );
 
-function toggleStudioCamera(id) {
+      const priceSource =
+        document.getElementById(
+          'camera-price-source'
+        )?.value || '';
 
-  const previousCount =
-    selectedStudioCameras.length;
-
-  if (
-    !selectedStudioCameras.includes(id) &&
-    selectedStudioCameras.length >= MAX_CAMERAS
-  ) {
-    alert(
-      'You can compare up to 4 cameras at once.'
-    );
-    return;
-  }
-
-  if (selectedStudioCameras.includes(id)) {
-
-    selectedStudioCameras =
-      selectedStudioCameras.filter(
-        camId => camId !== id
-      );
-
-  } else {
-
-    selectedStudioCameras.push(id);
-
-  }
-
-  initCameraStudio();
-
-  const useCase =
-    document.getElementById(
-      'use-case-selector'
-    ).value;
-
-  if (
-    useCase !== '' &&
-    selectedStudioCameras.length >= 2 &&
-    selectedStudioCameras.length > previousCount
-  ) {
-
-    setTimeout(() => {
-
-      document
-        .getElementById(
-          'camera-comparison-container'
-        )
-        .scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-
-    }, 100);
-
-  }
-
-}
-
-// --- CAMERA STUDIO FUNCTIONS ---
-function resetCameraStudio() {
-
-  selectedStudioCameras = [];
-
-  document.getElementById(
-    'use-case-selector'
-  ).value = '';
-
-  initCameraStudio();
-
-}
-
-function resetLensStudio() {
-
-  selectedLenses = [];
-
-  document.getElementById(
-    'lens-type-selector'
-  ).value = '';
-
-  document.getElementById(
-    'lens-format-selector'
-  ).value = '';
-
-  document.getElementById(
-    'lens-usecase-selector'
-  ).value = '';
-
-  document.getElementById(
-    'lens-comparison-container'
-  ).innerHTML = '';
-
-  document.getElementById(
-    'lens-analysis'
-  ).innerHTML = '';
-
-  document.getElementById(
-    'lens-feature-matrix'
-  ).innerHTML = '';
-
-  initLensStudio();
-
-}
-
-function scrollToTop() {
-
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-
-}
-
-function initCameraStudio() {
-
-  const grid =
-    document.getElementById(
-      'camera-card-grid'
-    );
-
-  const priceSource =
-    document.getElementById(
-      'camera-price-source'
-    )?.value || '';
-
-grid.innerHTML = camerasData.map(cam => `
+      grid.innerHTML = camerasData.map(cam => `
 
 <div class="
   bg-slate-900
@@ -1564,11 +914,10 @@ grid.innerHTML = camerasData.map(cam => `
   <div class="flex flex-col items-center text-center w-full h-full">
 
     <div class="text-xs text-slate-400">
-      ${
-        cam.sensor.includes('Full-Frame')
+      ${cam.sensor.includes('Full-Frame')
           ? 'FULL FRAME'
           : 'APS-C'
-      }
+        }
     </div>
 
 <img
@@ -1580,15 +929,14 @@ grid.innerHTML = camerasData.map(cam => `
 <h3 class="text-lg font-bold text-white">
   ${cam.name}
 </h3>
-    ${
-      priceSource
-      ? `
+    ${priceSource
+          ? `
         <div class="mt-2 font-bold text-green-400">
           ¥${cam.prices[priceSource].toLocaleString()}
         </div>
       `
-      : ''
-    }
+          : ''
+        }
 
     <div class="space-y-1 text-xs mt-1">
       <div>📸 ${cam.effectiveResolution}</div>
@@ -1601,11 +949,10 @@ grid.innerHTML = camerasData.map(cam => `
       onclick="toggleStudioCamera('${cam.id}')"
       class="mt-auto px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-sm"
     >
-      ${
-        selectedStudioCameras.includes(cam.id)
+      ${selectedStudioCameras.includes(cam.id)
           ? 'Remove from Compare'
           : 'Compare'
-      }
+        }
     </button>
 
   </div>
@@ -1613,63 +960,63 @@ grid.innerHTML = camerasData.map(cam => `
 </div>
 
 `).join('');
-renderCameraComparison();
-}
+      renderCameraComparison();
+    }
 
-function getCameraBadge(cam) {
+    function getCameraBadge(cam) {
 
-  switch (cam.id) {
+      switch (cam.id) {
 
-    case 'a6400':
-      return '🪶 Lightest Camera';
+        case 'a6400':
+          return '🪶 Lightest Camera';
 
-    case 'a6700':
-      return '🏆 Best APS-C All-Rounder';
+        case 'a6700':
+          return '🏆 Best APS-C All-Rounder';
 
-    case 'fx30':
-      return '🎬 Best Video Camera';
+        case 'fx30':
+          return '🎬 Best Video Camera';
 
-    case 'a7c2':
-      return '✈️ Best Travel Full-Frame';
+        case 'a7c2':
+          return '✈️ Best Travel Full-Frame';
 
-    case 'a7m4':
-      return '⚖️ Best All-Rounder';
+        case 'a7m4':
+          return '⚖️ Best All-Rounder';
 
-case 'a7v':
-  return 'Latest Hybrid Camera';
+        case 'a7v':
+          return 'Latest Hybrid Camera';
 
-    case 'a7cr':
-      return '📸 Highest Resolution';
+        case 'a7cr':
+          return '📸 Highest Resolution';
 
-    default:
-      return '';
-  }
-}
+        default:
+          return '';
+      }
+    }
 
-function renderCameraComparison() {
+    function renderCameraComparison() {
 
-  renderComparisonBasedOn();
+      renderComparisonBasedOn();
 
-  const wrapper =
-    document.getElementById(
-      'comparison-table-wrapper'
-    );
+      const wrapper =
+        document.getElementById(
+          'comparison-table-wrapper'
+        );
 
-  if (selectedStudioCameras.length === 0) {
+      if (selectedStudioCameras.length === 0) {
 
-    document.getElementById(
-      'camera-comparison-container'
-    ).style.display = 'none';
+        document.getElementById(
+          'camera-comparison-container'
+        ).style.display = 'none';
 
-    return;
-  }  const activeCams =
-    camerasData.filter(c =>
-      selectedStudioCameras.includes(c.id)
-    );
+        return;
+      } const activeCams =
+        camerasData.filter(c =>
+          selectedStudioCameras.includes(c.id)
+        );
 
-document.getElementById(
-  'quick-comparison-grid'
-).innerHTML = `
+      document.getElementById(
+        'quick-comparison-grid'
+      ).innerHTML = `
 <div class="grid md:grid-cols-2 gap-6 text-lg">
 
     ${activeCams.map(cam => `
@@ -1718,66 +1065,66 @@ document.getElementById(
   </div>
 `;
 
-document.getElementById(
-'camera-comparison-container'
-).style.display = 'block';
+      document.getElementById(
+        'camera-comparison-container'
+      ).style.display = 'block';
 
-const specGroups = [
-  {
-    title: '📸 Imaging & Autofocus',
-    specs: [
-      { label: 'Sensor', key: 'sensor' },
-      { label: 'Resolution', key: 'effectiveResolution' },
-      { label: 'Sensor Size', key: 'sensorSize' },
-      { label: 'Processor', key: 'processor' },
-      { label: 'IBIS', key: 'ibis' },
-      { label: 'Autofocus', key: 'af' },
-      { label: 'Burst Shooting', key: 'burst' }
-    ]
-  },
+      const specGroups = [
+        {
+          title: '📸 Imaging & Autofocus',
+          specs: [
+            { label: 'Sensor', key: 'sensor' },
+            { label: 'Resolution', key: 'effectiveResolution' },
+            { label: 'Sensor Size', key: 'sensorSize' },
+            { label: 'Processor', key: 'processor' },
+            { label: 'IBIS', key: 'ibis' },
+            { label: 'Autofocus', key: 'af' },
+            { label: 'Burst Shooting', key: 'burst' }
+          ]
+        },
 
-  {
-    title: '🎥 Video & Recording',
-    specs: [
-      { label: 'Video', key: 'video' },
-      { label: 'RAW Output', key: 'videoRaw' },
-      { label: 'Recording Limit', key: 'recordingLimit' }
-    ]
-  },
+        {
+          title: '🎥 Video & Recording',
+          specs: [
+            { label: 'Video', key: 'video' },
+            { label: 'RAW Output', key: 'videoRaw' },
+            { label: 'Recording Limit', key: 'recordingLimit' }
+          ]
+        },
 
-  {
-    title: '📺 Display',
-    specs: [
-      { label: 'EVF', key: 'evf' },
-      { label: 'LCD Screen', key: 'lcd' },
-      { label: 'LCD Resolution', key: 'lcdResolution' }
-    ]
-  },
+        {
+          title: '📺 Display',
+          specs: [
+            { label: 'EVF', key: 'evf' },
+            { label: 'LCD Screen', key: 'lcd' },
+            { label: 'LCD Resolution', key: 'lcdResolution' }
+          ]
+        },
 
-  {
-    title: '💾 Storage & Connectivity',
-    specs: [
-      { label: 'Card Slots', key: 'cardSlots' },
-      { label: 'USB', key: 'usb' },
-      { label: 'HDMI', key: 'hdmi' },
-      { label: 'Wi‑Fi', key: 'wifi' },
-      { label: 'Bluetooth', key: 'bluetooth' }
-    ]
-  },
+        {
+          title: '💾 Storage & Connectivity',
+          specs: [
+            { label: 'Card Slots', key: 'cardSlots' },
+            { label: 'USB', key: 'usb' },
+            { label: 'HDMI', key: 'hdmi' },
+            { label: 'Wi‑Fi', key: 'wifi' },
+            { label: 'Bluetooth', key: 'bluetooth' }
+          ]
+        },
 
-  {
-    title: '🔋 Battery & Body',
-    specs: [
-      { label: 'Battery', key: 'battery' },
-      { label: 'Battery Life', key: 'batteryLife' },
-      { label: 'Weight', key: 'weight' },
-      { label: 'Dimensions', key: 'dimensions' },
-      { label: 'Weather Sealing', key: 'weatherSealed' }
-    ]
-  }
-];
+        {
+          title: '🔋 Battery & Body',
+          specs: [
+            { label: 'Battery', key: 'battery' },
+            { label: 'Battery Life', key: 'batteryLife' },
+            { label: 'Weight', key: 'weight' },
+            { label: 'Dimensions', key: 'dimensions' },
+            { label: 'Weather Sealing', key: 'weatherSealed' }
+          ]
+        }
+      ];
 
-wrapper.innerHTML = specGroups.map((group, index) => `
+      wrapper.innerHTML = specGroups.map((group, index) => `
 <details
   class="mb-4 bg-slate-950 rounded-xl border border-slate-800">
 
@@ -1829,196 +1176,196 @@ ${activeCams.map(cam => `
   </details>
 `).join('');
 
-renderSensorFormatAnalysis(activeCams);
+      renderSensorFormatAnalysis(activeCams);
 
-renderRecommendation(activeCams);
+      renderRecommendation(activeCams);
 
-renderComparisonWinners(activeCams);
+      renderComparisonWinners(activeCams);
 
-renderCameraAnalysis(activeCams);
+      renderCameraAnalysis(activeCams);
 
-}
-function renderCameraAnalysis(activeCams) {
+    }
+    function renderCameraAnalysis(activeCams) {
 
-  const container =
-    document.getElementById('camera-analysis');
+      const container =
+        document.getElementById('camera-analysis');
 
-container.innerHTML = `
+      container.innerHTML = `
   <div class="grid md:grid-cols-4 gap-4">
     ${activeCams.map(cam => {
 
-const photoScore =
-  calculatePhotographyScore(cam);
+        const photoScore =
+          calculatePhotographyScore(cam);
 
-const videoScore =
-  calculateVideoScore(cam);
+        const videoScore =
+          calculateVideoScore(cam);
 
-const travelScore =
-  calculateTravelScore(cam);
+        const travelScore =
+          calculateTravelScore(cam);
 
-const overallScore =
-  calculateOverallScore(cam);
+        const overallScore =
+          calculateOverallScore(cam);
 
 
 
-const strengths = [];
+        const strengths = [];
 
-const weaknesses = [];
+        const weaknesses = [];
 
-const useCase =
-  document.getElementById(
-    'use-case-selector'
-  ).value;
+        const useCase =
+          document.getElementById(
+            'use-case-selector'
+          ).value;
 
-      const maxRes = Math.max(
-        ...activeCams.map(c =>
-          parseFloat(c.effectiveResolution)
-        )
-      );
-
-      const minWeight = Math.min(
-        ...activeCams.map(c =>
-          parseInt(c.weight)
-        )
-      );
-
-      if (
-        parseInt(cam.effectiveResolution)
-        === maxRes
-      ) {
-        strengths.push(
-          'Highest resolution in comparison'
+        const maxRes = Math.max(
+          ...activeCams.map(c =>
+            parseFloat(c.effectiveResolution)
+          )
         );
-      }
 
-if (
-  parseInt(cam.weight)
-  === minWeight &&
-  activeCams.length > 1
-) {
-  strengths.push(
-    'Lightest camera selected'
-  );
-}
+        const minWeight = Math.min(
+          ...activeCams.map(c =>
+            parseInt(c.weight)
+          )
+        );
 
-if (
-  cam.video.includes('120')
-) {
-  strengths.push(
-    'Best slow-motion video capabilities'
-  );
-}
+        if (
+          parseInt(cam.effectiveResolution)
+          === maxRes
+        ) {
+          strengths.push(
+            'Highest resolution in comparison'
+          );
+        }
 
-if (
-  cam.ibis !== 'None'
-) {
-  strengths.push(
-    'Built-in image stabilization'
-  );
-}
-if (
-  cam.processor.includes('AI')
-) {
-  strengths.push(
-    'AI-powered autofocus tracking'
-  );
-}
+        if (
+          parseInt(cam.weight)
+          === minWeight &&
+          activeCams.length > 1
+        ) {
+          strengths.push(
+            'Lightest camera selected'
+          );
+        }
 
-if (
-  cam.name === 'Sony FX30'
-) {
-  strengths.push(
-    'Designed specifically for cinema production'
-  );
-}
+        if (
+          cam.video.includes('120')
+        ) {
+          strengths.push(
+            'Best slow-motion video capabilities'
+          );
+        }
 
-/* ---------- Disney Mode ---------- */
+        if (
+          cam.ibis !== 'None'
+        ) {
+          strengths.push(
+            'Built-in image stabilization'
+          );
+        }
+        if (
+          cam.processor.includes('AI')
+        ) {
+          strengths.push(
+            'AI-powered autofocus tracking'
+          );
+        }
 
-if (useCase === 'disney') {
+        if (
+          cam.name === 'Sony FX30'
+        ) {
+          strengths.push(
+            'Designed specifically for cinema production'
+          );
+        }
 
-  if (parseInt(cam.weight) < 550) {
-    strengths.push(
-      'Comfortable for full-day park visits'
-    );
-  }
+        /* ---------- Disney Mode ---------- */
 
-  if (cam.ibis !== 'None') {
-    strengths.push(
-      'Excellent for nighttime Disney photography'
-    );
-  }
+        if (useCase === 'disney') {
 
-  if (cam.processor.includes('AI')) {
-    strengths.push(
-      'Tracks moving characters and parade performers well'
-    );
-  }
+          if (parseInt(cam.weight) < 550) {
+            strengths.push(
+              'Comfortable for full-day park visits'
+            );
+          }
 
-  if (cam.sensor.includes('Full-Frame')) {
-    strengths.push(
-      'Better low-light image quality for evening shows'
-    );
-  }
+          if (cam.ibis !== 'None') {
+            strengths.push(
+              'Excellent for nighttime Disney photography'
+            );
+          }
 
-  if (parseInt(cam.weight) > 600) {
-    weaknesses.push(
-      'May feel heavy after a full day in the parks'
-    );
-  }
+          if (cam.processor.includes('AI')) {
+            strengths.push(
+              'Tracks moving characters and parade performers well'
+            );
+          }
 
-  if (cam.ibis === 'None') {
-    weaknesses.push(
-      'Harder to shoot handheld after sunset'
-    );
-  }
+          if (cam.sensor.includes('Full-Frame')) {
+            strengths.push(
+              'Better low-light image quality for evening shows'
+            );
+          }
 
-}
- if (
-  cam.cardSlots &&
-  cam.cardSlots.startsWith('1')
-) {
-  weaknesses.push(
-    'Single card slot'
-  );
-}
+          if (parseInt(cam.weight) > 600) {
+            weaknesses.push(
+              'May feel heavy after a full day in the parks'
+            );
+          }
 
-if (
-  cam.evf.includes('2.36')
-) {
-  weaknesses.push(
-    'Lower EVF resolution than some competitors'
-  );
-}
+          if (cam.ibis === 'None') {
+            weaknesses.push(
+              'Harder to shoot handheld after sunset'
+            );
+          }
 
-if (
-  cam.hdmi === 'Micro HDMI'
-) {
-  weaknesses.push(
-    'Uses Micro HDMI connection'
-  );
-}
+        }
+        if (
+          cam.cardSlots &&
+          cam.cardSlots.startsWith('1')
+        ) {
+          weaknesses.push(
+            'Single card slot'
+          );
+        }
 
-if (
-  cam.evf === 'None'
-) {
-  weaknesses.push(
-    'No electronic viewfinder'
-  );
-}
+        if (
+          cam.evf.includes('2.36')
+        ) {
+          weaknesses.push(
+            'Lower EVF resolution than some competitors'
+          );
+        }
 
-const hasFullFrame =
-  activeCams.some(c =>
-    c.sensor.includes('Full-Frame')
-  );
+        if (
+          cam.hdmi === 'Micro HDMI'
+        ) {
+          weaknesses.push(
+            'Uses Micro HDMI connection'
+          );
+        }
 
-if (
-  hasFullFrame &&
-  cam.sensor.includes('APS-C')
-) {
-  weaknesses.push(
-    'Smaller sensor than full-frame models'
-  );
-}      return `
+        if (
+          cam.evf === 'None'
+        ) {
+          weaknesses.push(
+            'No electronic viewfinder'
+          );
+        }
+
+        const hasFullFrame =
+          activeCams.some(c =>
+            c.sensor.includes('Full-Frame')
+          );
+
+        if (
+          hasFullFrame &&
+          cam.sensor.includes('APS-C')
+        ) {
+          weaknesses.push(
+            'Smaller sensor than full-frame models'
+          );
+        } return `
  <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl h-full">
 
          <h3 class="text-lg font-bold text-blue-400 mb-2">
@@ -2098,328 +1445,328 @@ if (
         </div>
       `;
 
- }).join('')}
+      }).join('')}
   </div>
 `;
 
-}
+    }
 
-function calculateDisneyScore(cam) {
+    function calculateDisneyScore(cam) {
 
-  let score = 50;
+      let score = 50;
 
-  // Lightweight for long park days
-  if (parseInt(cam.weight) < 550)
-    score += 20;
+      // Lightweight for long park days
+      if (parseInt(cam.weight) < 550)
+        score += 20;
 
-  // IBIS helps nighttime shots
-  if (cam.ibis !== 'None')
-    score += 15;
+      // IBIS helps nighttime shots
+      if (cam.ibis !== 'None')
+        score += 15;
 
-  // AI tracking helps moving characters
-  if (cam.processor.includes('AI'))
-    score += 15;
+      // AI tracking helps moving characters
+      if (cam.processor.includes('AI'))
+        score += 15;
 
-  // Full frame helps low light
-  if (cam.sensor.includes('Full-Frame'))
-    score += 10;
+      // Full frame helps low light
+      if (cam.sensor.includes('Full-Frame'))
+        score += 10;
 
-  return Math.min(score, 100);
-}
+      return Math.min(score, 100);
+    }
 
-function calculatePhotographyScore(cam) {
+    function calculatePhotographyScore(cam) {
 
-  let score = 50;
+      let score = 50;
 
-  score += parseInt(cam.effectiveResolution) / 2;
+      score += parseInt(cam.effectiveResolution) / 2;
 
-  if (cam.sensor.includes('Full-Frame'))
-    score += 15;
+      if (cam.sensor.includes('Full-Frame'))
+        score += 15;
 
-  if (cam.ibis !== 'None')
-    score += 10;
+      if (cam.ibis !== 'None')
+        score += 10;
 
-  return Math.min(
-    Math.round(score),
-    100
-  );
-}
+      return Math.min(
+        Math.round(score),
+        100
+      );
+    }
 
-function calculateVideoScore(cam) {
+    function calculateVideoScore(cam) {
 
-  let score = 50;
+      let score = 50;
 
-  if (cam.video.includes('60'))
-    score += 15;
+      if (cam.video.includes('60'))
+        score += 15;
 
-  if (cam.video.includes('120'))
-    score += 30;
+      if (cam.video.includes('120'))
+        score += 30;
 
-  if (cam.processor.includes('AI'))
-    score += 10;
+      if (cam.processor.includes('AI'))
+        score += 10;
 
-  return Math.min(
-    Math.round(score),
-    100
-  );
-
-}
-
-function calculateTravelScore(cam) {
-
-  let score = 60;
-
-  if (parseInt(cam.weight) < 550)
-    score += 20;
-
-  if (cam.ibis !== 'None')
-    score += 10;
-
-  if (cam.sensor.includes('APS-C'))
-    score += 10;
-
-if (cam.sensor.includes('Full-Frame'))
-  score += 5;
-
-  return Math.min(
-    Math.round(score),
-    100
-  );
-}
-
-function calculateOverallScore(cam) {
-
-  return Math.round(
-    (
-      calculatePhotographyScore(cam) +
-      calculateVideoScore(cam) +
-      calculateTravelScore(cam)
-    ) / 3
-  );
-
-}
-
-// Initialize on page load
-
-function renderRecommendation(activeCams) {
-
-  const container =
-    document.getElementById(
-      'recommendation-box'
-    );
-
-  const useCase =
-    document.getElementById(
-      'use-case-selector'
-    ).value;
-
-if (
-  activeCams.length < 2 ||
-  useCase === ''
-) {
-  container.innerHTML = '';
-  return;
-}
-
-  let winner;
-  let title;
-  let reasons = [];
-
-  switch (useCase) {
-
-    case 'travel':
-
-      winner = [...activeCams].sort(
-        (a,b) =>
-          calculateTravelScore(b) -
-          calculateTravelScore(a)
-      )[0];
-
-      title = '✈️ Best Travel Choice';
-
-      if (parseInt(winner.weight) < 550) {
-        reasons.push(
-          'Lightweight body for travelling'
-        );
-      }
-
-      if (winner.ibis !== 'None') {
-        reasons.push(
-          'Built-in stabilisation for handheld shooting'
-        );
-      }
-
-      if (
-        winner.sensor.includes('Full-Frame')
-      ) {
-        reasons.push(
-          'Excellent image quality while travelling'
-        );
-      }
-
-      break;
-
-    case 'video':
-
-      winner = [...activeCams].sort(
-        (a,b) =>
-          calculateVideoScore(b) -
-          calculateVideoScore(a)
-      )[0];
-
-      title = '🎥 Best Video Camera';
-
-      if (winner.video.includes('120')) {
-        reasons.push(
-          '4K 120p slow-motion recording'
-        );
-      }
-
-      if (
-        winner.recordingLimit.includes('Unlimited') ||
-        winner.recordingLimit.includes('No limit')
-      ) {
-        reasons.push(
-          'No recording time limits'
-        );
-      }
-
-      if (winner.ibis !== 'None') {
-        reasons.push(
-          'Stabilised handheld footage'
-        );
-      }
-
-      break;
-
-    case 'content':
-
-      winner = [...activeCams].sort(
-        (a,b) =>
-          calculateOverallScore(b) -
-          calculateOverallScore(a)
-      )[0];
-
-      title = '📱 Best Content Creator Camera';
-
-      reasons.push(
-        'Strong balance of photo and video performance'
+      return Math.min(
+        Math.round(score),
+        100
       );
 
+    }
+
+    function calculateTravelScore(cam) {
+
+      let score = 60;
+
+      if (parseInt(cam.weight) < 550)
+        score += 20;
+
+      if (cam.ibis !== 'None')
+        score += 10;
+
+      if (cam.sensor.includes('APS-C'))
+        score += 10;
+
+      if (cam.sensor.includes('Full-Frame'))
+        score += 5;
+
+      return Math.min(
+        Math.round(score),
+        100
+      );
+    }
+
+    function calculateOverallScore(cam) {
+
+      return Math.round(
+        (
+          calculatePhotographyScore(cam) +
+          calculateVideoScore(cam) +
+          calculateTravelScore(cam)
+        ) / 3
+      );
+
+    }
+
+    // Initialize on page load
+
+    function renderRecommendation(activeCams) {
+
+      const container =
+        document.getElementById(
+          'recommendation-box'
+        );
+
+      const useCase =
+        document.getElementById(
+          'use-case-selector'
+        ).value;
+
       if (
-        winner.processor.includes('AI')
+        activeCams.length < 2 ||
+        useCase === ''
       ) {
-        reasons.push(
-          'Advanced AI subject tracking'
-        );
+        container.innerHTML = '';
+        return;
       }
 
-      if (winner.ibis !== 'None') {
-        reasons.push(
-          'Built-in stabilisation for vlogging'
-        );
+      let winner;
+      let title;
+      let reasons = [];
+
+      switch (useCase) {
+
+        case 'travel':
+
+          winner = [...activeCams].sort(
+            (a, b) =>
+              calculateTravelScore(b) -
+              calculateTravelScore(a)
+          )[0];
+
+          title = '✈️ Best Travel Choice';
+
+          if (parseInt(winner.weight) < 550) {
+            reasons.push(
+              'Lightweight body for travelling'
+            );
+          }
+
+          if (winner.ibis !== 'None') {
+            reasons.push(
+              'Built-in stabilisation for handheld shooting'
+            );
+          }
+
+          if (
+            winner.sensor.includes('Full-Frame')
+          ) {
+            reasons.push(
+              'Excellent image quality while travelling'
+            );
+          }
+
+          break;
+
+        case 'video':
+
+          winner = [...activeCams].sort(
+            (a, b) =>
+              calculateVideoScore(b) -
+              calculateVideoScore(a)
+          )[0];
+
+          title = '🎥 Best Video Camera';
+
+          if (winner.video.includes('120')) {
+            reasons.push(
+              '4K 120p slow-motion recording'
+            );
+          }
+
+          if (
+            winner.recordingLimit.includes('Unlimited') ||
+            winner.recordingLimit.includes('No limit')
+          ) {
+            reasons.push(
+              'No recording time limits'
+            );
+          }
+
+          if (winner.ibis !== 'None') {
+            reasons.push(
+              'Stabilised handheld footage'
+            );
+          }
+
+          break;
+
+        case 'content':
+
+          winner = [...activeCams].sort(
+            (a, b) =>
+              calculateOverallScore(b) -
+              calculateOverallScore(a)
+          )[0];
+
+          title = '📱 Best Content Creator Camera';
+
+          reasons.push(
+            'Strong balance of photo and video performance'
+          );
+
+          if (
+            winner.processor.includes('AI')
+          ) {
+            reasons.push(
+              'Advanced AI subject tracking'
+            );
+          }
+
+          if (winner.ibis !== 'None') {
+            reasons.push(
+              'Built-in stabilisation for vlogging'
+            );
+          }
+
+          break;
+
+        case 'disney':
+
+          winner = [...activeCams].sort(
+            (a, b) =>
+              calculateDisneyScore(b) -
+              calculateDisneyScore(a)
+          )[0];
+
+          title = '🏰 Best Disney Camera';
+
+          if (parseInt(winner.weight) < 550) {
+            reasons.push(
+              'Comfortable to carry all day'
+            );
+          }
+
+          if (winner.ibis !== 'None') {
+            reasons.push(
+              'Better for night parades and shows'
+            );
+          }
+
+          if (
+            winner.processor.includes('AI')
+          ) {
+            reasons.push(
+              'Excellent tracking for moving characters'
+            );
+          }
+
+          if (
+            winner.sensor.includes('Full-Frame')
+          ) {
+            reasons.push(
+              'Stronger low-light image quality'
+            );
+          }
+
+          break;
+
+        default:
+          container.innerHTML = '';
+          return;
       }
 
-      break;
+      const otherCam =
+        activeCams.length === 2
+          ? activeCams.find(
+            cam => cam.id !== winner.id
+          )
+          : null;
 
-    case 'disney':
+      let otherReasons = [];
 
-      winner = [...activeCams].sort(
-        (a,b) =>
-          calculateDisneyScore(b) -
-          calculateDisneyScore(a)
-      )[0];
+      if (otherCam) {
 
-      title = '🏰 Best Disney Camera';
+        if (otherCam.sensor.includes('Full-Frame')) {
+          otherReasons.push(
+            'Full-frame image quality and better low-light performance'
+          );
+        }
 
-      if (parseInt(winner.weight) < 550) {
-        reasons.push(
-          'Comfortable to carry all day'
-        );
+        if (
+          parseInt(otherCam.effectiveResolution) >
+          parseInt(winner.effectiveResolution)
+        ) {
+          otherReasons.push(
+            'Higher resolution for large prints and cropping'
+          );
+        }
+
+        if (
+          otherCam.video.includes('120')
+        ) {
+          otherReasons.push(
+            'Superior slow-motion video capabilities'
+          );
+        }
+
+        if (
+          otherCam.ibis !== 'None'
+        ) {
+          otherReasons.push(
+            'Built-in image stabilization'
+          );
+        }
+
+        if (
+          parseInt(otherCam.weight) <
+          parseInt(winner.weight)
+        ) {
+          otherReasons.push(
+            'Lighter body for all-day carry'
+          );
+        }
       }
 
-      if (winner.ibis !== 'None') {
-        reasons.push(
-          'Better for night parades and shows'
-        );
-      }
-
-      if (
-        winner.processor.includes('AI')
-      ) {
-        reasons.push(
-          'Excellent tracking for moving characters'
-        );
-      }
-
-      if (
-        winner.sensor.includes('Full-Frame')
-      ) {
-        reasons.push(
-          'Stronger low-light image quality'
-        );
-      }
-
-      break;
-
-    default:
-      container.innerHTML = '';
-      return;
-  }
-
-const otherCam =
-  activeCams.length === 2
-    ? activeCams.find(
-        cam => cam.id !== winner.id
-      )
-    : null;
-
-let otherReasons = [];
-
-if (otherCam) {
-
-  if (otherCam.sensor.includes('Full-Frame')) {
-    otherReasons.push(
-      'Full-frame image quality and better low-light performance'
-    );
-  }
-
-  if (
-    parseInt(otherCam.effectiveResolution) >
-    parseInt(winner.effectiveResolution)
-  ) {
-    otherReasons.push(
-      'Higher resolution for large prints and cropping'
-    );
-  }
-
-  if (
-    otherCam.video.includes('120')
-  ) {
-    otherReasons.push(
-      'Superior slow-motion video capabilities'
-    );
-  }
-
-  if (
-    otherCam.ibis !== 'None'
-  ) {
-    otherReasons.push(
-      'Built-in image stabilization'
-    );
-  }
-
-  if (
-    parseInt(otherCam.weight) <
-    parseInt(winner.weight)
-  ) {
-    otherReasons.push(
-      'Lighter body for all-day carry'
-    );
-  }
-}
-
-  container.innerHTML = `
+      container.innerHTML = `
 
   <div class="
     bg-gradient-to-r
@@ -2504,8 +1851,7 @@ if (otherCam) {
 
   </div>
 
-  ${
-    otherCam ? `
+  ${otherCam ? `
 
 
 <div class="mt-6 bg-slate-900 border border-yellow-900 rounded-xl p-5">
@@ -2547,43 +1893,43 @@ if (otherCam) {
 
 </div>
     `
-    : ''
-  }
+          : ''
+        }
 
 </div>
 
 `;
-}
+    }
 
-function renderComparisonWinners(activeCams) {
+    function renderComparisonWinners(activeCams) {
 
-  const winners =
-    document.getElementById('comparison-winners');
+      const winners =
+        document.getElementById('comparison-winners');
 
-  const bestPhoto =
-    [...activeCams].sort((a, b) =>
-      calculatePhotographyScore(b) -
-      calculatePhotographyScore(a)
-    )[0];
+      const bestPhoto =
+        [...activeCams].sort((a, b) =>
+          calculatePhotographyScore(b) -
+          calculatePhotographyScore(a)
+        )[0];
 
-  const bestVideo =
-    [...activeCams].sort((a, b) =>
-      calculateVideoScore(b) -
-      calculateVideoScore(a)
-    )[0];
+      const bestVideo =
+        [...activeCams].sort((a, b) =>
+          calculateVideoScore(b) -
+          calculateVideoScore(a)
+        )[0];
 
-  const bestTravel =
-    [...activeCams].sort((a, b) =>
-      calculateTravelScore(b) -
-      calculateTravelScore(a)
-    )[0];
-const overallWinner =
-  [...activeCams].sort((a, b) =>
-    calculateOverallScore(b) -
-    calculateOverallScore(a)
-  )[0];
+      const bestTravel =
+        [...activeCams].sort((a, b) =>
+          calculateTravelScore(b) -
+          calculateTravelScore(a)
+        )[0];
+      const overallWinner =
+        [...activeCams].sort((a, b) =>
+          calculateOverallScore(b) -
+          calculateOverallScore(a)
+        )[0];
 
-  winners.innerHTML = `
+      winners.innerHTML = `
    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 h-full flex flex-col justify-center">
 
     <h3 class="text-lg font-bold text-yellow-400 mb-4">
@@ -2623,25 +1969,25 @@ const overallWinner =
 
     </div>
   `;
-}
+    }
 
-function renderComparisonBasedOn() {
+    function renderComparisonBasedOn() {
 
-  const useCase =
-    document.getElementById(
-      'use-case-selector'
-    ).value;
+      const useCase =
+        document.getElementById(
+          'use-case-selector'
+        ).value;
 
-  const container =
-    document.getElementById(
-      'comparison-based-on'
-    );
+      const container =
+        document.getElementById(
+          'comparison-based-on'
+        );
 
-  switch (useCase) {
+      switch (useCase) {
 
-    case 'travel':
+        case 'travel':
 
-      container.innerHTML = `
+          container.innerHTML = `
         <div class="bg-slate-900 border border-blue-500 rounded-xl p-5">
 
           <h3 class="text-lg font-bold text-blue-400 mb-4">
@@ -2661,11 +2007,11 @@ function renderComparisonBasedOn() {
 
         </div>
       `;
-      break;
+          break;
 
-    case 'video':
+        case 'video':
 
-      container.innerHTML = `
+          container.innerHTML = `
         <div class="bg-slate-900 border border-red-500 rounded-xl p-5">
 
           <h3 class="text-lg font-bold text-red-400 mb-4">
@@ -2685,11 +2031,11 @@ function renderComparisonBasedOn() {
 
         </div>
       `;
-      break;
+          break;
 
-    case 'content':
+        case 'content':
 
-      container.innerHTML = `
+          container.innerHTML = `
         <div class="bg-slate-900 border border-green-500 rounded-xl p-5">
 
           <h3 class="text-lg font-bold text-green-400 mb-4">
@@ -2709,11 +2055,11 @@ function renderComparisonBasedOn() {
 
         </div>
       `;
-      break;
+          break;
 
-    case 'disney':
+        case 'disney':
 
-      container.innerHTML = `
+          container.innerHTML = `
         <div class="bg-slate-900 border border-purple-500 rounded-xl p-5">
 
           <h3 class="text-lg font-bold text-purple-400 mb-4">
@@ -2733,11 +2079,11 @@ function renderComparisonBasedOn() {
 
         </div>
       `;
-      break;
+          break;
 
-    default:
+        default:
 
-  container.innerHTML = `
+          container.innerHTML = `
     <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
 
       <h3 class="text-lg font-bold text-slate-300 mb-3">
@@ -2751,46 +2097,46 @@ function renderComparisonBasedOn() {
     </div>
   `;
 
-  break;
-  }
+          break;
+      }
 
-}
+    }
 
-function renderSensorFormatAnalysis(activeCams) {
+    function renderSensorFormatAnalysis(activeCams) {
 
-  if (activeCams.length !== 2) {
-    document.getElementById(
-      'sensor-format-analysis'
-    ).innerHTML = '';
+      if (activeCams.length !== 2) {
+        document.getElementById(
+          'sensor-format-analysis'
+        ).innerHTML = '';
 
-    return;
-  }
+        return;
+      }
 
-  const cam1 = activeCams[0];
-  const cam2 = activeCams[1];
+      const cam1 = activeCams[0];
+      const cam2 = activeCams[1];
 
-  const cam1Full =
-    cam1.sensor.includes('Full-Frame');
+      const cam1Full =
+        cam1.sensor.includes('Full-Frame');
 
-  const cam2Full =
-    cam2.sensor.includes('Full-Frame');
+      const cam2Full =
+        cam2.sensor.includes('Full-Frame');
 
-  const container =
-    document.getElementById(
-      'sensor-format-analysis'
-    );
+      const container =
+        document.getElementById(
+          'sensor-format-analysis'
+        );
 
-  // APS-C vs Full Frame
+      // APS-C vs Full Frame
 
-  if (cam1Full !== cam2Full) {
+      if (cam1Full !== cam2Full) {
 
-    const apsc =
-      cam1Full ? cam2 : cam1;
+        const apsc =
+          cam1Full ? cam2 : cam1;
 
-    const fullFrame =
-      cam1Full ? cam1 : cam2;
+        const fullFrame =
+          cam1Full ? cam1 : cam2;
 
-    container.innerHTML = `
+        container.innerHTML = `
       <div class="bg-slate-900 border border-purple-500 rounded-xl p-5">
 
         <h3 class="text-lg font-bold text-purple-400 mb-4">
@@ -2840,14 +2186,14 @@ function renderSensorFormatAnalysis(activeCams) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
-  // BOTH FULL FRAME
+      // BOTH FULL FRAME
 
-  if (cam1Full && cam2Full) {
+      if (cam1Full && cam2Full) {
 
-    container.innerHTML = `
+        container.innerHTML = `
       <div class="bg-slate-900 border border-yellow-500 rounded-xl p-5">
 
         <h3 class="text-lg font-bold text-yellow-400 mb-4">
@@ -2893,12 +2239,12 @@ function renderSensorFormatAnalysis(activeCams) {
       </div>
     `;
 
-    return;
-  }
+        return;
+      }
 
-  // BOTH APS-C
+      // BOTH APS-C
 
-  container.innerHTML = `
+      container.innerHTML = `
     <div class="bg-slate-900 border border-blue-500 rounded-xl p-5">
 
       <h3 class="text-lg font-bold text-blue-400 mb-4">
@@ -2943,235 +2289,81 @@ function renderSensorFormatAnalysis(activeCams) {
 
     </div>
   `;
-}
+    }
 
-function showTab(tab) {
+    function getLensFeatureBadges(features = []) {
 
-  const cameraSection =
-    document.getElementById('view-camera');
+      const colors = {
 
-  const lensSection =
-    document.getElementById('view-lens');
+        // =========================
+        // Lens Families
+        // =========================
 
-  const savingsSection =
-    document.getElementById('view-savings');
+        'GM': 'bg-[#d46a1f]',       // Orange
+        'G': 'bg-[#d2a018]',        // Gold
 
-  const plannerSection =
-  document.getElementById('view-planner');
+        // =========================
+        // Optical Elements (Blue)
+        // =========================
 
-  const isoSection =
-  document.getElementById('view-iso');
+        'Super ED': 'bg-[#1d56a8]',
+        'ED': 'bg-[#1d56a8]',
+        'ED Asph.': 'bg-[#1d56a8]',
+        'Aspherical': 'bg-[#1d56a8]',
+        'AA': 'bg-[#1d56a8]',
+        'XA': 'bg-[#1d56a8]',
 
-  const cameraTab =
-    document.getElementById('camera-tab');
+        // =========================
+        // Coatings (Purple)
+        // =========================
 
-  const lensTab =
-    document.getElementById('lens-tab');
+        'Nano AR II': 'bg-[#6d38d4]',
+        'F Coating': 'bg-[#7c5aa7]',
 
-  const savingsTab =
-    document.getElementById('savings-tab');
+        // =========================
+        // Internal Focus (Brown)
+        // =========================
 
-  const plannerTab =
-  document.getElementById('planner-tab');
+        'IF': 'bg-[#bb856f]',
+        'LR MF': 'bg-[#bb856f]',
+        'Floating F': 'bg-[#bb856f]',
+        'IZ': 'bg-[#bb856f]',
 
-  const isoTab =
-  document.getElementById('iso-tab');
+        // =========================
+        // Motors (Olive)
+        // =========================
 
-if (tab === 'camera') {
+        'XD LM': 'bg-[#9b8c58]',
+        'LM': 'bg-[#9b8c58]',
 
-  cameraSection.style.display = 'block';
-  lensSection.style.display = 'none';
-  savingsSection.style.display = 'none';
-  plannerSection.style.display = 'none';
+        // =========================
+        // Stabilization (Teal)
+        // =========================
 
-    cameraTab.className =
-      'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
+        'OSS': 'bg-[#4d91a5]',
+        'OSS Mode': 'bg-[#4d91a5]',
 
-    lensTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+        // =========================
+        // Controls (Green)
+        // =========================
 
-    savingsTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
+        'FHB': 'bg-[#6c9d68]',
+        'FRL': 'bg-[#6c9d68]',
+        'I/A Ring': 'bg-[#5f9355]',
+        'I/A Click': 'bg-[#5f9355]',
+        'I/A Lock': 'bg-[#5f9355]',
+        'Zoom smth.': 'bg-[#6c9d68]',
 
-  plannerTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-  
-  }
+        // =========================
+        // Body Features (Gray)
+        // =========================
 
-if (tab === 'lens') {
+        'DMR': 'bg-[#7b8798]',
+        'Circular': 'bg-[#8d97a6]'
 
-  cameraSection.style.display = 'none';
-  lensSection.style.display = 'block';
-  savingsSection.style.display = 'none';
-  plannerSection.style.display = 'none';
+      };
 
-    lensTab.className =
-      'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
-
-    cameraTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-    savingsTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-  plannerTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-  
-  }
-
-if (tab === 'savings') {
-
-  cameraSection.style.display = 'none';
-  lensSection.style.display = 'none';
-  savingsSection.style.display = 'block';
-  plannerSection.style.display = 'none';
-
-    savingsTab.className =
-      'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
-
-    cameraTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-    lensTab.className =
-      'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-  plannerTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-  
-  }
-
-if (tab === 'planner') {
-
-  cameraTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-lensTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-savingsTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-plannerTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-  cameraSection.style.display = 'none';
-  lensSection.style.display = 'none';
-  savingsSection.style.display = 'none';
-  plannerSection.style.display = 'block';
-
-  plannerTab.className =
-    'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
-
-  cameraTab.className =
-    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-  lensTab.className =
-    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-  savingsTab.className =
-    'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-}
-
-  if (tab === 'iso') {
-
-  cameraSection.style.display = 'none';
-  lensSection.style.display = 'none';
-  savingsSection.style.display = 'none';
-  plannerSection.style.display = 'none';
-  isoSection.style.display = 'block';
-
-  cameraTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-lensTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-savingsTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-
-plannerTab.className =
-  'px-4 py-2 rounded-lg bg-slate-800 text-white font-bold';
-    
-    isoTab.className =
-    'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold';
-
-}
-
-}
-  
-function getLensFeatureBadges(features = []) {
-
-const colors = {
-
-  // =========================
-  // Lens Families
-  // =========================
-
-  'GM': 'bg-[#d46a1f]',       // Orange
-  'G': 'bg-[#d2a018]',        // Gold
-
-  // =========================
-  // Optical Elements (Blue)
-  // =========================
-
-  'Super ED': 'bg-[#1d56a8]',
-  'ED': 'bg-[#1d56a8]',
-  'ED Asph.': 'bg-[#1d56a8]',
-  'Aspherical': 'bg-[#1d56a8]',
-  'AA': 'bg-[#1d56a8]',
-  'XA': 'bg-[#1d56a8]',
-
-  // =========================
-  // Coatings (Purple)
-  // =========================
-
-  'Nano AR II': 'bg-[#6d38d4]',
-  'F Coating': 'bg-[#7c5aa7]',
-
-  // =========================
-  // Internal Focus (Brown)
-  // =========================
-
-  'IF': 'bg-[#bb856f]',
-  'LR MF': 'bg-[#bb856f]',
-  'Floating F': 'bg-[#bb856f]',
-  'IZ': 'bg-[#bb856f]',
-
-  // =========================
-  // Motors (Olive)
-  // =========================
-
-  'XD LM': 'bg-[#9b8c58]',
-  'LM': 'bg-[#9b8c58]',
-
-  // =========================
-  // Stabilization (Teal)
-  // =========================
-
-  'OSS': 'bg-[#4d91a5]',
-  'OSS Mode': 'bg-[#4d91a5]',
-
-  // =========================
-  // Controls (Green)
-  // =========================
-
-  'FHB': 'bg-[#6c9d68]',
-  'FRL': 'bg-[#6c9d68]',
-  'I/A Ring': 'bg-[#5f9355]',
-  'I/A Click': 'bg-[#5f9355]',
-  'I/A Lock': 'bg-[#5f9355]',
-  'Zoom smth.': 'bg-[#6c9d68]',
-
-  // =========================
-  // Body Features (Gray)
-  // =========================
-
-  'DMR': 'bg-[#7b8798]',
-  'Circular': 'bg-[#8d97a6]'
-
-};
-
-return features.map(feature => `
+      return features.map(feature => `
 <span
   class="
     ${colors[feature] || 'bg-slate-700'}
@@ -3186,114 +2378,114 @@ return features.map(feature => `
   ${feature}
 </span>
 `).join('');
-}
+    }
 
-function initLensStudio() {
+    function initLensStudio() {
 
-  const grid =
-    document.getElementById(
-      'lens-card-grid'
-    );
+      const grid =
+        document.getElementById(
+          'lens-card-grid'
+        );
 
-const lensType =
-  document.getElementById(
-    'lens-type-selector'
-  )?.value || '';
+      const lensType =
+        document.getElementById(
+          'lens-type-selector'
+        )?.value || '';
 
-const lensFormat =
-  document.getElementById(
-    'lens-format-selector'
-  )?.value || '';
+      const lensFormat =
+        document.getElementById(
+          'lens-format-selector'
+        )?.value || '';
 
-const lensUseCase =
-  document.getElementById(
-    'lens-usecase-selector'
-  )?.value || '';
+      const lensUseCase =
+        document.getElementById(
+          'lens-usecase-selector'
+        )?.value || '';
 
-const priceSource =
-  document.getElementById(
-    'lens-price-source'
-  )?.value || '';
+      const priceSource =
+        document.getElementById(
+          'lens-price-source'
+        )?.value || '';
 
-let filteredLenses = lensesData;
+      let filteredLenses = lensesData;
 
-if (lensType === 'wide') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.type === 'Wide Angle Zoom'
-  );
-}
+      if (lensType === 'wide') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.type === 'Wide Angle Zoom'
+        );
+      }
 
-if (lensType === 'standard') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.type === 'Standard Zoom'
-  );
-}
+      if (lensType === 'standard') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.type === 'Standard Zoom'
+        );
+      }
 
-if (lensType === 'travelzoom') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.type === 'Travel Zoom'
-  );
-}
+      if (lensType === 'travelzoom') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.type === 'Travel Zoom'
+        );
+      }
 
-if (lensType === 'telephoto') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.type.includes('Telephoto')
-  );
-}
+      if (lensType === 'telephoto') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.type.includes('Telephoto')
+        );
+      }
 
-if (lensFormat === 'apsc') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.format === 'APS-C'
-  );
-}
+      if (lensFormat === 'apsc') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.format === 'APS-C'
+        );
+      }
 
-if (lensFormat === 'fullframe') {
-  filteredLenses = filteredLenses.filter(
-    lens => lens.format === 'Full Frame'
-  );
-} 
+      if (lensFormat === 'fullframe') {
+        filteredLenses = filteredLenses.filter(
+          lens => lens.format === 'Full Frame'
+        );
+      }
 
-// =========================
-// USE CASE FILTER
-// =========================
+      // =========================
+      // USE CASE FILTER
+      // =========================
 
-if (lensUseCase === 'travel') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['20-70g', '18-135'].includes(lens.id)
-  );
-}
+      if (lensUseCase === 'travel') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['20-70g', '18-135'].includes(lens.id)
+        );
+      }
 
-if (lensUseCase === 'landscape') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['16-35gm2', '20-70g'].includes(lens.id)
-  );
-}
+      if (lensUseCase === 'landscape') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['16-35gm2', '20-70g'].includes(lens.id)
+        );
+      }
 
-if (lensUseCase === 'sports') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['70-200gm2', '70-350g'].includes(lens.id)
-  );
-}
+      if (lensUseCase === 'sports') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['70-200gm2', '70-350g'].includes(lens.id)
+        );
+      }
 
-if (lensUseCase === 'wildlife') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['70-350g', '70-200gm2'].includes(lens.id)
-  );
-}
+      if (lensUseCase === 'wildlife') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['70-350g', '70-200gm2'].includes(lens.id)
+        );
+      }
 
-if (lensUseCase === 'disney') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['20-70g', '18-135', '70-350g'].includes(lens.id)
-  );
-}
+      if (lensUseCase === 'disney') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['20-70g', '18-135', '70-350g'].includes(lens.id)
+        );
+      }
 
-if (lensUseCase === 'family') {
-  filteredLenses = filteredLenses.filter(
-    lens => ['24-70gm2', '20-70g', '18-135'].includes(lens.id)
-  );
-}
- 
-grid.innerHTML = filteredLenses.map(lens => `
+      if (lensUseCase === 'family') {
+        filteredLenses = filteredLenses.filter(
+          lens => ['24-70gm2', '20-70g', '18-135'].includes(lens.id)
+        );
+      }
+
+      grid.innerHTML = filteredLenses.map(lens => `
 
 <div class="
 bg-slate-900
@@ -3322,15 +2514,14 @@ h-full
     📷 ${lens.type}
   </span>
 
-  ${
-    priceSource
-      ? `
+  ${priceSource
+          ? `
       <span class="text-green-400 font-bold">
         ¥${lens.prices[priceSource].toLocaleString()}
       </span>
       `
-      : ''
-  }
+          : ''
+        }
 
 </div>
 
@@ -3359,58 +2550,56 @@ h-full
       py-2
       rounded-lg
       text-white
-      ${
-        selectedLenses.includes(lens.id)
+      ${selectedLenses.includes(lens.id)
           ? 'bg-red-600'
           : 'bg-blue-600'
-      }
+        }
     "
   >
-    ${
-      selectedLenses.includes(lens.id)
-        ? 'Remove'
-        : 'Compare'
-    }
+    ${selectedLenses.includes(lens.id)
+          ? 'Remove'
+          : 'Compare'
+        }
   </button>
 
 </div>
 
 `).join('');
 
-renderLensComparison();
+      renderLensComparison();
 
-}
+    }
 
-function renderLensComparison() {
+    function renderLensComparison() {
 
-  const container =
-    document.getElementById(
-      'lens-comparison-container'
-    );
+      const container =
+        document.getElementById(
+          'lens-comparison-container'
+        );
 
-  if (selectedLenses.length === 0) {
+      if (selectedLenses.length === 0) {
 
-    container.innerHTML = '';
+        container.innerHTML = '';
 
-document.getElementById(
-  'lens-analysis'
-).innerHTML = '';
+        document.getElementById(
+          'lens-analysis'
+        ).innerHTML = '';
 
-document.getElementById(
-  'lens-feature-matrix'
-).innerHTML = '';
+        document.getElementById(
+          'lens-feature-matrix'
+        ).innerHTML = '';
 
-    return;
+        return;
 
-  }
+      }
 
-const activeLenses =
-  lensesData.filter(
-    lens =>
-      selectedLenses.includes(lens.id)
-  );
+      const activeLenses =
+        lensesData.filter(
+          lens =>
+            selectedLenses.includes(lens.id)
+        );
 
-container.innerHTML = `
+      container.innerHTML = `
 
 <div class="mb-4">
 
@@ -3513,94 +2702,94 @@ container.innerHTML = `
 
   `;
 
-renderLensAnalysis(activeLenses);
+      renderLensAnalysis(activeLenses);
 
-renderLensFeatureCards(activeLenses);
+      renderLensFeatureCards(activeLenses);
 
-}
+    }
 
-const featureImpacts = {
+    const featureImpacts = {
 
-  'GM':
-    'Sony premium optical design for maximum sharpness and image quality.',
+      'GM':
+        'Sony premium optical design for maximum sharpness and image quality.',
 
-  'G':
-    'High optical quality with strong sharpness and colour reproduction.',
+      'G':
+        'High optical quality with strong sharpness and colour reproduction.',
 
-  'XA':
-    'Improves edge-to-edge sharpness, reduces distortion and produces smoother bokeh.',
+      'XA':
+        'Improves edge-to-edge sharpness, reduces distortion and produces smoother bokeh.',
 
-  'ED':
-    'Reduces chromatic aberration and colour fringing.',
+      'ED':
+        'Reduces chromatic aberration and colour fringing.',
 
-  'Super ED':
-    'Further suppresses colour fringing in high contrast scenes.',
+      'Super ED':
+        'Further suppresses colour fringing in high contrast scenes.',
 
-  'Aspherical':
-    'Helps reduce distortion and improves corner sharpness.',
+      'Aspherical':
+        'Helps reduce distortion and improves corner sharpness.',
 
-  'Nano AR II':
-    'Improves flare resistance and contrast when shooting into bright light.',
+      'Nano AR II':
+        'Improves flare resistance and contrast when shooting into bright light.',
 
-  'IF':
-    'Improves autofocus speed but has little direct effect on image quality.',
+      'IF':
+        'Improves autofocus speed but has little direct effect on image quality.',
 
-  'OSS':
-    'Helps keep images sharper when shooting handheld at slower shutter speeds.',
+      'OSS':
+        'Helps keep images sharper when shooting handheld at slower shutter speeds.',
 
-  'I/A Ring':
-    'No image quality improvement. Improves aperture control.',
+      'I/A Ring':
+        'No image quality improvement. Improves aperture control.',
 
-  'I/A Lock':
-    'No image quality improvement. Prevents accidental aperture changes.'
+      'I/A Lock':
+        'No image quality improvement. Prevents accidental aperture changes.'
 
-};
+    };
 
-function renderLensFeatureCards(activeLenses) {
+    function renderLensFeatureCards(activeLenses) {
 
-  const container =
-    document.getElementById(
-      'lens-feature-matrix'
-    );
+      const container =
+        document.getElementById(
+          'lens-feature-matrix'
+        );
 
-  const categories = {
+      const categories = {
 
-    optics: [
-      'GM',
-      'G',
-      'XA',
-      'ED',
-      'Super ED',
-      'Aspherical'
-    ],
+        optics: [
+          'GM',
+          'G',
+          'XA',
+          'ED',
+          'Super ED',
+          'Aspherical'
+        ],
 
-    coatings: [
-      'Nano AR II',
-      'F Coating'
-    ],
+        coatings: [
+          'Nano AR II',
+          'F Coating'
+        ],
 
-    mechanics: [
-      'IF',
-      'LR MF',
-      'Floating F',
-      'XD LM',
-      'LM'
-    ],
+        mechanics: [
+          'IF',
+          'LR MF',
+          'Floating F',
+          'XD LM',
+          'LM'
+        ],
 
-    controls: [
-      'I/A Ring',
-      'I/A Click',
-      'I/A Lock'
-    ],
+        controls: [
+          'I/A Ring',
+          'I/A Click',
+          'I/A Lock'
+        ],
 
-    stabilization: [
-      'OSS',
-      'OSS Mode'
-    ]
+        stabilization: [
+          'OSS',
+          'OSS Mode'
+        ]
 
-  };
+      };
 
-  container.innerHTML = `
+      container.innerHTML = `
 
     <div class="mb-4">
 
@@ -3642,16 +2831,15 @@ function renderLensFeatureCards(activeLenses) {
               </h4>
 
               <ul class="space-y-1">
-                ${
-                  categories.optics
-                    .filter(feature =>
-                      lens.features.includes(feature)
-                    )
-                    .map(feature => `
+                ${categories.optics
+          .filter(feature =>
+            lens.features.includes(feature)
+          )
+          .map(feature => `
                       <li>✅ ${feature}</li>
                     `)
-                    .join('')
-                }
+          .join('')
+        }
               </ul>
             </div>
 
@@ -3661,16 +2849,15 @@ function renderLensFeatureCards(activeLenses) {
               </h4>
 
               <ul class="space-y-1">
-                ${
-                  categories.coatings
-                    .filter(feature =>
-                      lens.features.includes(feature)
-                    )
-                    .map(feature => `
+                ${categories.coatings
+          .filter(feature =>
+            lens.features.includes(feature)
+          )
+          .map(feature => `
                       <li>✅ ${feature}</li>
                     `)
-                    .join('')
-                }
+          .join('')
+        }
               </ul>
             </div>
 
@@ -3680,16 +2867,15 @@ function renderLensFeatureCards(activeLenses) {
               </h4>
 
               <ul class="space-y-1">
-                ${
-                  categories.mechanics
-                    .filter(feature =>
-                      lens.features.includes(feature)
-                    )
-                    .map(feature => `
+                ${categories.mechanics
+          .filter(feature =>
+            lens.features.includes(feature)
+          )
+          .map(feature => `
                       <li>✅ ${feature}</li>
                     `)
-                    .join('')
-                }
+          .join('')
+        }
               </ul>
             </div>
 
@@ -3699,16 +2885,15 @@ function renderLensFeatureCards(activeLenses) {
               </h4>
 
               <ul class="space-y-1">
-                ${
-                  categories.controls
-                    .filter(feature =>
-                      lens.features.includes(feature)
-                    )
-                    .map(feature => `
+                ${categories.controls
+          .filter(feature =>
+            lens.features.includes(feature)
+          )
+          .map(feature => `
                       <li>✅ ${feature}</li>
                     `)
-                    .join('')
-                }
+          .join('')
+        }
               </ul>
             </div>
 
@@ -3718,24 +2903,22 @@ function renderLensFeatureCards(activeLenses) {
               </h4>
 
               <ul class="space-y-1">
-                ${
-                  categories.stabilization
-                    .filter(feature =>
-                      lens.features.includes(feature)
-                    )
-                    .map(feature => `
+                ${categories.stabilization
+          .filter(feature =>
+            lens.features.includes(feature)
+          )
+          .map(feature => `
                       <li>✅ ${feature}</li>
                     `)
-                    .join('')
-                }
+          .join('')
+        }
 
-                ${
-                  !categories.stabilization.some(feature =>
-                    lens.features.includes(feature)
-                  )
-                    ? '<li>❌ No OSS</li>'
-                    : ''
-                }
+                ${!categories.stabilization.some(feature =>
+          lens.features.includes(feature)
+        )
+          ? '<li>❌ No OSS</li>'
+          : ''
+        }
 
               </ul>
             </div>
@@ -3748,16 +2931,16 @@ function renderLensFeatureCards(activeLenses) {
 
     </div>
   `;
-}
+    }
 
-function renderLensAnalysis(activeLenses) {
+    function renderLensAnalysis(activeLenses) {
 
-  const container =
-    document.getElementById(
-      'lens-analysis'
-    );
+      const container =
+        document.getElementById(
+          'lens-analysis'
+        );
 
-container.innerHTML = `
+      container.innerHTML = `
 
 <div class="mb-4">
 
@@ -3775,97 +2958,97 @@ container.innerHTML = `
 
 ${activeLenses.map(lens => {
 
-const strengths = [];
-const considerations = [];
+        const strengths = [];
+        const considerations = [];
 
-if (lens.features.includes('GM')) {
-  strengths.push(
-    'Premium G Master optical design'
-  );
-}
+        if (lens.features.includes('GM')) {
+          strengths.push(
+            'Premium G Master optical design'
+          );
+        }
 
-if (lens.features.includes('XA')) {
-  strengths.push(
-    'XA elements improve sharpness and bokeh quality'
-  );
-}
+        if (lens.features.includes('XA')) {
+          strengths.push(
+            'XA elements improve sharpness and bokeh quality'
+          );
+        }
 
-if (
-  lens.features.includes('ED') ||
-  lens.features.includes('Super ED')
-) {
-  strengths.push(
-    'Advanced ED glass reduces chromatic aberration'
-  );
-}
+        if (
+          lens.features.includes('ED') ||
+          lens.features.includes('Super ED')
+        ) {
+          strengths.push(
+            'Advanced ED glass reduces chromatic aberration'
+          );
+        }
 
-if (lens.features.includes('Nano AR II')) {
-  strengths.push(
-    'Excellent flare and ghosting resistance'
-  );
-}
+        if (lens.features.includes('Nano AR II')) {
+          strengths.push(
+            'Excellent flare and ghosting resistance'
+          );
+        }
 
-if (lens.aperture === 'F2.8') {
-  strengths.push(
-    'Constant F2.8 aperture for low-light shooting'
-  );
-}
+        if (lens.aperture === 'F2.8') {
+          strengths.push(
+            'Constant F2.8 aperture for low-light shooting'
+          );
+        }
 
-if (lens.features.includes('OSS')) {
-  strengths.push(
-    'Optical image stabilisation for handheld shooting'
-  );
-}
+        if (lens.features.includes('OSS')) {
+          strengths.push(
+            'Optical image stabilisation for handheld shooting'
+          );
+        }
 
-switch (lens.id) {
+        switch (lens.id) {
 
-  case '16-35gm2':
-    considerations.push(
-      'Ultra-wide perspective may require distortion correction'
-    );
-    considerations.push(
-      'Less subject compression than telephoto lenses'
-    );
-    break;
+          case '16-35gm2':
+            considerations.push(
+              'Ultra-wide perspective may require distortion correction'
+            );
+            considerations.push(
+              'Less subject compression than telephoto lenses'
+            );
+            break;
 
-  case '24-70gm2':
-    considerations.push(
-      'Less reach than telephoto zoom lenses'
-    );
-    break;
+          case '24-70gm2':
+            considerations.push(
+              'Less reach than telephoto zoom lenses'
+            );
+            break;
 
-  case '20-70g':
-    considerations.push(
-      'F4 aperture gathers less light than F2.8 alternatives'
-    );
-    break;
+          case '20-70g':
+            considerations.push(
+              'F4 aperture gathers less light than F2.8 alternatives'
+            );
+            break;
 
-  case '70-200gm2':
-    considerations.push(
-      'Largest and heaviest lens in the lineup'
-    );
-    break;
+          case '70-200gm2':
+            considerations.push(
+              'Largest and heaviest lens in the lineup'
+            );
+            break;
 
-  case '70-350g':
-    considerations.push(
-      'APS-C only lens'
-    );
-    considerations.push(
-      'Variable aperture limits low-light performance'
-    );
-    break;
+          case '70-350g':
+            considerations.push(
+              'APS-C only lens'
+            );
+            considerations.push(
+              'Variable aperture limits low-light performance'
+            );
+            break;
 
-  case '18-135':
-    considerations.push(
-      'Designed for versatility over maximum optical performance'
-    );
-    considerations.push(
-      'Variable aperture limits low-light performance'
-    );
-    break;
-}
+          case '18-135':
+            considerations.push(
+              'Designed for versatility over maximum optical performance'
+            );
+            considerations.push(
+              'Variable aperture limits low-light performance'
+            );
+            break;
+        }
 
-return `
+        return `
 
 <div class="
 bg-slate-900
@@ -3927,609 +3110,218 @@ h-full
     </div>
 
 `;
-}
-
-window.addEventListener('scroll', () => {
-
-  const button =
-    document.getElementById(
-      'scroll-to-top'
-    );
-
-  if (window.scrollY > 400) {
-
-    button.style.display = 'block';
-
-  } else {
-
-    button.style.display = 'none';
-
-  }
-
-});
-
-  // ============================
-// LOCAL STORAGE
-// ============================
-
-function saveSavingsData() {
-
-  const data = {
-
-    gearGoal:
-      document.getElementById('gear-goal').value,
-
-    currentSavings:
-      document.getElementById('current-savings').value,
-
-    monthlySavings:
-      document.getElementById('monthly-savings').value,
-
-    monthlySpending:
-      document.getElementById('monthly-spending').value
-
-  };
-
-  localStorage.setItem(
-    'gearSavingsData',
-    JSON.stringify(data)
-  );
-
-}
-
-function loadSavingsData() {
-
-  const saved =
-    localStorage.getItem(
-      'gearSavingsData'
-    );
-
-  if (!saved) return;
-
-  const data =
-    JSON.parse(saved);
-
-  document.getElementById(
-    'gear-goal'
-  ).value =
-    data.gearGoal || '';
-
-  document.getElementById(
-    'current-savings'
-  ).value =
-    data.currentSavings || '';
-
-  document.getElementById(
-    'monthly-savings'
-  ).value =
-    data.monthlySavings || '';
-
-  document.getElementById(
-    'monthly-spending'
-  ).value =
-    data.monthlySpending || '';
-}
-
- function handleCSVUpload(event) {
-
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-
-    const csvText = e.target.result;
-
-    document.getElementById(
-  'planner-results'
-).innerHTML = `
-  <div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
-    <h3 class="text-xl font-bold text-cyan-400">
-      🧠 Analyzing CSV...
-    </h3>
-
-    <p class="mt-3 text-slate-400">
-      Please wait while AI analyzes your spending.
-    </p>
-  </div>
-`;
-
-    analyzeSpending(csvText);
-
-  };
-
-  reader.readAsText(
-  file,
-  "Shift_JIS"
-);
-
-
-}
-
-async function analyzeSpending(csvText) {
-
-  try {
-
-const response = await fetch(
-  "https://sony-planner-ai.hironakajoe1.workers.dev/",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-body: JSON.stringify({
-  csv: csvText,
-  salary: MONTHLY_SALARY,
-
-  aiProvider:
-    document.getElementById("ai-provider").value,
-
-  gearGoal:
-    Number(
-      document.getElementById("gear-goal").value
-    ) || 0,
-
-  currentSavings:
-    Number(
-      document.getElementById("current-savings").value
-    ) || 0,
-
-  monthlySavings:
-    Number(
-      document.getElementById("monthly-savings").value
-    ) || 0,
-
-  selectedCamera:
-    document.getElementById(
-      "camera-selector"
-    ).selectedOptions[0]?.text,
-
-  selectedLens:
-    document.getElementById(
-      "lens-selector"
-    ).selectedOptions[0]?.text
-})
-  }
-);
-    
-    if (!response.ok) {
-      
-const errorBody = await response.text();
-
-throw new Error(
-  `API Error ${response.status}: ${errorBody}`
-);
     }
 
-    const result =
-      await response.json();
+    window.addEventListener('scroll', () => {
 
-const displayedIncome =
-  Number(result.income) > 0
-    ? Number(result.income)
-    : MONTHLY_SALARY;
+      const button =
+        document.getElementById(
+          'scroll-to-top'
+        );
 
-console.log(
-  JSON.stringify(result, null, 2)
-);
+      if (window.scrollY > 400) {
 
-document.getElementById(
-"planner-results"
-).innerHTML = `
-    
-<div class="bg-slate-900 border border-slate-700 rounded-xl p-5">
+        button.style.display = 'block';
 
-  <h3 class="text-2xl font-bold text-cyan-400 mb-5">
-    🧠 AI Financial Analysis
-  </h3>
+      } else {
 
-  <div class="grid md:grid-cols-3 gap-4 mb-6">
+        button.style.display = 'none';
 
-    <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">
-        Income
-      </div>
-
-      <div class="text-2xl font-bold text-green-400">
-        ¥${displayedIncome.toLocaleString()}
-      </div>
-    </div>
-
-    <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">
-        Expenses
-      </div>
-
-      <div class="text-2xl font-bold text-red-400">
-        ¥${(result.expenses || 0).toLocaleString()}
-      </div>
-    </div>
-
-    <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-      <div class="text-slate-400 text-sm">
-        Balance
-      </div>
-
-      <div class="text-2xl font-bold text-blue-400">
-        ¥${(result.balance || 0).toLocaleString()}
-      </div>
-    </div>
-
-  </div>
-
-<div class="bg-slate-950 rounded-xl p-4 border border-slate-700 mb-6">
-
-  <h4 class="text-lg font-bold text-cyan-400 mb-3">
-    📊 Spending Analysis
-  </h4>
-
-  <div class="grid md:grid-cols-2 gap-4 items-center">
-
-    <div class="flex justify-center">
-      <div style="width:120px;height:120px;">
-        <canvas id="spendingChart"></canvas>
-      </div>
-    </div>
-
-    <div>
-      <h4 class="text-lg font-bold text-yellow-400 mb-3">
-  📂 Expense Breakdown
-</h4>
-
-<div class="space-y-3">
-
-${(result.categories || []).map(category => `
-
-<details class="bg-slate-900 rounded-lg p-3">
-
-<summary class="cursor-pointer font-bold text-cyan-400">
-
-  ${category.name}
-  •
-  ¥${category.total.toLocaleString()}
-
-</summary>
-
-  <div class="mt-3 space-y-2">
-
-    ${(category.transactions || []).map(t => `
-
-      <div class="flex justify-between">
-
-        <span>${t.merchant}</span>
-
-        <span>
-          ¥${t.amount.toLocaleString()}
-        </span>
-
-      </div>
-
-    `).join("")}
-
-  </div>
-
-</details>
-
-`).join("")}
-
-</div>
-
-    </div>
-
-  </div>
-
-</div>
-  <div class="bg-slate-950 rounded-xl p-4 border border-slate-700">
-    <h4 class="text-lg font-bold text-purple-400 mb-3">
-      🧠 AI Advice
-    </h4>
-
-    <p>
-      ${result.advice || "No advice available."}
-    </p>
-  </div>
-
-  <div class="bg-slate-950 rounded-xl p-4 border border-slate-700 mt-4">
-  <h4 class="text-lg font-bold text-green-400 mb-3">
-    📷 Sony Gear Roadmap
-  </h4>
-
-  <p>
-    ${result.gearPlan || "No gear plan available."}
-  </p>
-</div>
-
-</div>
-
-`;
-
-if (spendingChart) {
-  spendingChart.destroy();
-}
-
-if (spendingChart) {
-  spendingChart.destroy();
-}
-
-const chartCanvas =
-  document.getElementById("spendingChart");
-
-if (!chartCanvas) return;
-
-spendingChart = new Chart(
-  chartCanvas,
-
-  {
-    type: "doughnut",
-    data: {
-      labels: (result.categories || []).map(c => c.name),
-      datasets: [{
-        data: (result.categories || []).map(c => c.total)
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: 0
-      },
-      cutout: '75%',
-      plugins: {
-        legend: {
-          display: false
-        }
       }
-    }
-  }
-);
-
-} catch (error) {
- 
-console.error(error);
- 
-document.getElementById(
-"planner-results"
-).innerHTML = `
-<div class="bg-red-900 p-5 rounded-xl">
-${error.message}
-</div>
-`;
-}
- 
-}
-  let isoImage = new Image();
-
-function initIsoSimulator() {
-
-  const canvas =
-    document.getElementById("isoCanvas");
-
-  if (!canvas) return;
-
-  const ctx =
-    canvas.getContext("2d");
-
-  isoImage.src =
-    "images/iso-demo.jpg";
-
-isoImage.onload = () => {
-  console.log("Image loaded");
-  renderISO(100);
-};
-
-isoImage.onerror = () => {
-  console.error("Image failed to load");
-};
-
-isoImage.onerror = () => {
-  console.error("Image failed to load");
-};
-
-  document
-    .getElementById("isoSlider")
-    .addEventListener("input", (e) => {
-
-      const iso =
-        Number(e.target.value);
-
-      document
-        .getElementById("isoValue")
-        .textContent = iso;
-
-      renderISO(iso);
 
     });
-}
 
-  function renderISO(iso) {
+    // ============================
+    // LOCAL STORAGE
+    // ============================
 
-  const canvas =
-    document.getElementById("isoCanvas");
+    function saveSavingsData() {
 
-  if (!canvas) return;
+      const data = {
 
-  const ctx =
-    canvas.getContext("2d");
+        gearGoal:
+          document.getElementById('gear-goal').value,
 
-  ctx.drawImage(
-    isoImage,
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
+        currentSavings:
+          document.getElementById('current-savings').value,
 
-  const imageData =
-    ctx.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
+        monthlySavings:
+          document.getElementById('monthly-savings').value,
+
+        monthlySpending:
+          document.getElementById('monthly-spending').value
+
+      };
+
+      localStorage.setItem(
+        'gearSavingsData',
+        JSON.stringify(data)
+      );
+
+    }
+
+    function loadSavingsData() {
+
+      const saved =
+        localStorage.getItem(
+          'gearSavingsData'
+        );
+
+      if (!saved) return;
+
+      const data =
+        JSON.parse(saved);
+
+      document.getElementById(
+        'gear-goal'
+      ).value =
+        data.gearGoal || '';
+
+      document.getElementById(
+        'current-savings'
+      ).value =
+        data.currentSavings || '';
+
+      document.getElementById(
+        'monthly-savings'
+      ).value =
+        data.monthlySavings || '';
+
+      document.getElementById(
+        'monthly-spending'
+      ).value =
+        data.monthlySpending || '';
+    }
+
+
+
+
+    window.addEventListener(
+      'DOMContentLoaded',
+      () => {
+
+        document
+          .getElementById('csv-upload')
+          .addEventListener(
+            'change',
+            handleCSVUpload
+          );
+
+        document
+          .getElementById('camera-price-source')
+          .addEventListener('change', () => {
+            initCameraStudio();
+          });
+
+        document
+          .getElementById('gear-goal')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('monthly-spending')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('current-savings')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('monthly-savings')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        initCameraStudio();
+        initLensStudio();
+        initGearSavings();
+
+        loadSavingsData();
+
+        calculateSavings();
+
+        initIsoSimulator();
+
+        // Lens filter
+        document
+          .getElementById('lens-type-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-format-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-usecase-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-price-source')
+          .addEventListener('change', () => {
+            initLensStudio();
+          });
+
+        document
+          .getElementById('use-case-selector')
+          .addEventListener('change', () => {
+
+            renderCameraComparison();
+
+            const useCase =
+              document.getElementById(
+                'use-case-selector'
+              ).value;
+
+            if (useCase !== '') {
+
+              setTimeout(() => {
+
+                document
+                  .getElementById(
+                    'camera-comparison-container'
+                  )
+                  .scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+
+              }, 100);
+
+            }
+
+          });
+
+      }
     );
+  </script>
 
-  const data =
-    imageData.data;
-
-  const noiseAmount =
-    Math.min(
-      (iso / 51200) * 100,
-      100
-    );
-
-  for (
-    let i = 0;
-    i < data.length;
-    i += 4
-  ) {
-
-    const noise =
-      (Math.random() - 0.5)
-      * noiseAmount;
-
-    data[i] += noise;
-    data[i + 1] += noise;
-    data[i + 2] += noise;
-  }
-
-  ctx.putImageData(
-    imageData,
-    0,
-    0
-  );
-}
-  
-window.addEventListener(
-  'DOMContentLoaded',
-  () => {
-
-    document
-  .getElementById('csv-upload')
-  .addEventListener(
-    'change',
-    handleCSVUpload
-  );
-
-document
-  .getElementById('camera-price-source')
-  .addEventListener('change', () => {
-    initCameraStudio();
-  });
-
-document
-  .getElementById('gear-goal')
-  .addEventListener('input', () => {
-
-    calculateSavings();
-    saveSavingsData();
-
-  });
-
-document
-  .getElementById('monthly-spending')
-  .addEventListener('input', () => {
-
-    calculateSavings();
-    saveSavingsData();
-
-  });
-
-document
-  .getElementById('current-savings')
-  .addEventListener('input', () => {
-
-    calculateSavings();
-    saveSavingsData();
-
-  });
-
-document
-  .getElementById('monthly-savings')
-  .addEventListener('input', () => {
-
-    calculateSavings();
-    saveSavingsData();
-
-  });
-
-    initCameraStudio();
-    initLensStudio();
-    initGearSavings();
-
-    loadSavingsData();
-    
-    calculateSavings();
-
-    initIsoSimulator();
-
-    // Lens filter
-    document
-      .getElementById('lens-type-selector')
-      .addEventListener('change', () => {
-        selectedLenses = [];
-        initLensStudio();
-      });
-
-    document
-      .getElementById('lens-format-selector')
-      .addEventListener('change', () => {
-        selectedLenses = [];
-        initLensStudio();
-      });
-
-    document
-      .getElementById('lens-usecase-selector')
-      .addEventListener('change', () => {
-        selectedLenses = [];
-        initLensStudio();
-      });
-
-document
-  .getElementById('lens-price-source')
-  .addEventListener('change', () => {
-    initLensStudio();
-  });
-
-    document
-      .getElementById('use-case-selector')
-      .addEventListener('change', () => {
-
-        renderCameraComparison();
-
-        const useCase =
-          document.getElementById(
-            'use-case-selector'
-          ).value;
-
-        if (useCase !== '') {
-
-          setTimeout(() => {
-
-            document
-              .getElementById(
-                'camera-comparison-container'
-              )
-              .scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              });
-
-          }, 100);
-
-        }
-
-      });
-
-  }
-);
-</script>
-
-<button
-  id="scroll-to-top"
-  onclick="scrollToTop()"
-style="display:none"
-  class="
+  <button id="scroll-to-top" onclick="scrollToTop()" style="display:none" class="
     fixed
     bottom-6
     right-6
@@ -4541,11 +3333,23 @@ style="display:none"
     rounded-full
     shadow-lg
     z-50
-  "
->
-  ⬆️
-</button>
+  ">
+    ⬆️
+  </button>
 
+<script src="js/cameraData.js"></script>
+<script src="js/lensData.js"></script>
+
+<script src="js/cameraStudio.js"></script>
+<script src="js/lensStudio.js"></script>
+
+<script src="js/savings.js"></script>
+<script src="js/planner.js"></script>
+
+<script src="js/isoSimulator.js"></script>
+
+<script src="js/app.js"></script>
 
 </body>
+
 </html>
