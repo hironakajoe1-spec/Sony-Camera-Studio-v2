@@ -53,3 +53,166 @@ function showTab(tab) {
   }
 
 }
+
+ function scrollToTop() {
+
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+    }
+
+    function getCameraBadge(cam) {
+
+      switch (cam.id) {
+
+        case 'a6400':
+          return '🪶 Lightest Camera';
+
+        case 'a6700':
+          return '🏆 Best APS-C All-Rounder';
+
+        case 'fx30':
+          return '🎬 Best Video Camera';
+
+        case 'a7c2':
+          return '✈️ Best Travel Full-Frame';
+
+        case 'a7m4':
+          return '⚖️ Best All-Rounder';
+
+        case 'a7v':
+          return 'Latest Hybrid Camera';
+
+        case 'a7cr':
+          return '📸 Highest Resolution';
+
+        default:
+          return '';
+      }
+    }
+
+ window.addEventListener(
+      'DOMContentLoaded',
+      () => {
+
+        document
+          .getElementById('csv-upload')
+          .addEventListener(
+            'change',
+            handleCSVUpload
+          );
+
+        document
+          .getElementById('camera-price-source')
+          .addEventListener('change', () => {
+            initCameraStudio();
+          });
+
+        document
+          .getElementById('gear-goal')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('monthly-spending')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('current-savings')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        document
+          .getElementById('monthly-savings')
+          .addEventListener('input', () => {
+
+            calculateSavings();
+            saveSavingsData();
+
+          });
+
+        initCameraStudio();
+        initLensStudio();
+        initGearSavings();
+
+        loadSavingsData();
+
+        calculateSavings();
+
+        initIsoSimulator();
+
+        // Lens filter
+        document
+          .getElementById('lens-type-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-format-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-usecase-selector')
+          .addEventListener('change', () => {
+            selectedLenses = [];
+            initLensStudio();
+          });
+
+        document
+          .getElementById('lens-price-source')
+          .addEventListener('change', () => {
+            initLensStudio();
+          });
+
+        document
+          .getElementById('use-case-selector')
+          .addEventListener('change', () => {
+
+            renderCameraComparison();
+
+            const useCase =
+              document.getElementById(
+                'use-case-selector'
+              ).value;
+
+            if (useCase !== '') {
+
+              setTimeout(() => {
+
+                document
+                  .getElementById(
+                    'camera-comparison-container'
+                  )
+                  .scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                  });
+
+              }, 100);
+
+            }
+
+          });
+
+      }
+    );
