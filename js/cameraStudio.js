@@ -74,3 +74,61 @@
 `).join('');
       renderCameraComparison();
     }
+
+function toggleStudioCamera(id) {
+
+      const previousCount =
+        selectedStudioCameras.length;
+
+      if (
+        !selectedStudioCameras.includes(id) &&
+        selectedStudioCameras.length >= MAX_CAMERAS
+      ) {
+        alert(
+          'You can compare up to 4 cameras at once.'
+        );
+        return;
+      }
+
+      if (selectedStudioCameras.includes(id)) {
+
+        selectedStudioCameras =
+          selectedStudioCameras.filter(
+            camId => camId !== id
+          );
+
+      } else {
+
+        selectedStudioCameras.push(id);
+
+      }
+
+      initCameraStudio();
+
+      const useCase =
+        document.getElementById(
+          'use-case-selector'
+        ).value;
+
+      if (
+        useCase !== '' &&
+        selectedStudioCameras.length >= 2 &&
+        selectedStudioCameras.length > previousCount
+      ) {
+
+        setTimeout(() => {
+
+          document
+            .getElementById(
+              'camera-comparison-container'
+            )
+            .scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+
+        }, 100);
+
+      }
+
+    }
